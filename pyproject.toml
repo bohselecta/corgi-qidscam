@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qids-cam"
+version = "0.2.0"
+description = "Contradiction-aware graph search and portable execution receipts"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+authors = [
+  { name = "Hayden Lindley" }
+]
+keywords = [
+  "artificial-intelligence",
+  "retrieval-augmented-generation",
+  "rag",
+  "merkle-dag",
+  "content-addressed-memory",
+  "graph-search",
+  "conflict-learning",
+  "quantum-inspired",
+  "reasoning"
+]
+classifiers = [
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence"
+]
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/bohselecta/corgi-qidscam"
+Issues = "https://github.com/bohselecta/corgi-qidscam/issues"
+Documentation = "https://github.com/bohselecta/corgi-qidscam#readme"
+Publisher = "https://corgi-verse.com"
+
+[project.scripts]
+qids-cam = "qids_cam.cli:main"
+
+[tool.setuptools]
+packages = ["qids_cam"]
+include-package-data = false
+
+[tool.setuptools.package-data]
+qids_cam = ["py.typed", "data/*.json"]

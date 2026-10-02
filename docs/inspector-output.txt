@@ -1,0 +1,30 @@
+QIDS-CAM / proof inspector
+Verified: hash + context + deterministic replay + independent reference
+Problem: outage-2026-08-17
+Winner: cache_stampede
+Root: sha256:bb11985a71a78678cab4e28d5de3159fa36b5f0386b7ea5c4d87121670ea26eb
+Nodes: 42
+
+Candidate outcomes
+  cache_stampede           survives   score=+1.000000
+  database_failure         destroyed  score=-1.000000
+    skipped: traffic_spike
+  network_partition        destroyed  score=-1.000000
+  bad_deploy               destroyed  score=-1.000000
+    skipped: deployment_present, database_healthy_alias
+
+Trace / first 6 of 35 events
+     1 candidate            cache_stampede
+       Cache-key regression triggered a cache stampede
+     2 expand               traffic_spike
+       A sudden traffic spike preceded the outage.
+     3 resolve              traffic_spike
+       residual support survives destructive evaluation
+     4 expand               database_healthy
+       The database remained operational during initial onset.
+     5 resolve              database_healthy
+       residual support survives destructive evaluation
+     6 expand               cache_timeline
+       The observed chronology is compatible with a cache-triggered outage.
+
+Receipt integrity does not prove evidence truth or production answer quality.

@@ -1,0 +1,590 @@
+{
+  "candidate_results": [
+    {
+      "cid": "sha256:d08db1042ef6e5e26ca2de94e081ea5e6f5bb20ffc8e18bb341f53171bc7a068",
+      "evaluated_requirements": [
+        "traffic_spike",
+        "database_healthy",
+        "cache_timeline",
+        "cache_miss_wave"
+      ],
+      "key": "cache_stampede",
+      "label": "Cache-key regression triggered a cache stampede",
+      "reason": "all required propositions survived",
+      "score": 1.0,
+      "skipped_requirements": [],
+      "status": "survives"
+    },
+    {
+      "cid": "sha256:56814c46eebed89d25e927dcfa8edd890567c6717d87bca3309a01bcec742f4f",
+      "evaluated_requirements": [
+        "database_failure_chain"
+      ],
+      "key": "database_failure",
+      "label": "Database primary failure",
+      "reason": "requirement destroyed: database_failure_chain (sha256:51aa97ad9bf38fc7d010f356688b59685036ce8b4c5c7da20ce517a1b32760a5)",
+      "score": -1.0,
+      "skipped_requirements": [
+        "traffic_spike"
+      ],
+      "status": "destroyed"
+    },
+    {
+      "cid": "sha256:ddd192cefc5fe58613604e3b3a778ddce2233475db7367a0d5e15a728ee76746",
+      "evaluated_requirements": [
+        "network_failure_chain"
+      ],
+      "key": "network_partition",
+      "label": "Multi-region network partition",
+      "reason": "requirement destroyed: network_failure_chain (sha256:fe737440df39f975aa7dae1ab8525c46397cf0952c91482f19bb013c2d056e94)",
+      "score": -1.0,
+      "skipped_requirements": [],
+      "status": "destroyed"
+    },
+    {
+      "cid": "sha256:7796a8ba26e85e8f184aeb49ef203257c7c3bd2daac70c19d03ff104a4521dd8",
+      "evaluated_requirements": [
+        "deployment_failure_chain"
+      ],
+      "key": "bad_deploy",
+      "label": "A newly deployed application regression",
+      "reason": "requirement destroyed: deployment_failure_chain (sha256:5bd5fa7ccd3e199f346a881766e5c3cbb866482d1fd96dba898e4fc2dad89a62)",
+      "score": -1.0,
+      "skipped_requirements": [
+        "deployment_present",
+        "database_healthy_alias"
+      ],
+      "status": "destroyed"
+    }
+  ],
+  "config": {
+    "content_addressed_memory": true,
+    "dependency_weight": 0.65,
+    "destroy_below": -0.2,
+    "destructive_pruning": true,
+    "fail_first": true,
+    "learn_nogoods": true,
+    "name": "qids-cam",
+    "phase_aggregation": true,
+    "uncertain_band": 0.08
+  },
+  "metrics": {
+    "avoided_requirements": 3,
+    "candidate_evaluations": 4,
+    "destroyed_candidates": 3,
+    "destroyed_propositions": 6,
+    "early_prunes": 3,
+    "elapsed_ms": 2.4566179999965243,
+    "evidence_reads": 17,
+    "learned_nogoods": 6,
+    "memo_hits": 5,
+    "nogood_hits": 0,
+    "proposition_expansions": 11,
+    "unique_merkle_nodes": 42
+  },
+  "problem_id": "outage-2026-08-17",
+  "problem_root": "sha256:b1974ac7f5939d0dc2dc9beae0db82ecda71a360503bd5c744ca4c97bfe8bba8",
+  "proof_root": "sha256:bb11985a71a78678cab4e28d5de3159fa36b5f0386b7ea5c4d87121670ea26eb",
+  "proposition_results": {
+    "cache_miss_wave": {
+      "amplitude_imag": 0.0,
+      "amplitude_real": 2.91,
+      "cid": "sha256:0fd9159b1cfeedd95c4aff0a09a40a4ade84537dcd38e25c1cd4e77db96f24f6",
+      "coherence": 1.0,
+      "dependency_cids": [],
+      "key": "cache_miss_wave",
+      "local_score": 1.0,
+      "opposition": 0.0,
+      "reason": "CID memo reuse: residual support survives destructive evaluation",
+      "score": 1.0,
+      "status": "survives",
+      "support": 2.91
+    },
+    "cache_timeline": {
+      "amplitude_imag": 0.0,
+      "amplitude_real": 1.8,
+      "cid": "sha256:73defc1692e5629bba9b4826de35271658c4450b12f884b1ecb0141c1b032fb5",
+      "coherence": 1.0,
+      "dependency_cids": [
+        "sha256:298452001aa56bf27db89166a238efcb38a429b71a92323a10686bd3a78ad7d7",
+        "sha256:b07b0165233979cd83d21c3f43218cb5f939486ce016bffe52bed728f5649649",
+        "sha256:0fd9159b1cfeedd95c4aff0a09a40a4ade84537dcd38e25c1cd4e77db96f24f6"
+      ],
+      "key": "cache_timeline",
+      "local_score": 1.0,
+      "opposition": 0.0,
+      "reason": "residual support survives destructive evaluation",
+      "score": 1.0,
+      "status": "survives",
+      "support": 1.8
+    },
+    "database_failure_chain": {
+      "amplitude_imag": 0.0,
+      "amplitude_real": 0.0,
+      "cid": "sha256:51aa97ad9bf38fc7d010f356688b59685036ce8b4c5c7da20ce517a1b32760a5",
+      "coherence": 0.0,
+      "dependency_cids": [
+        "sha256:67212a803a207d3e95fdb914c1bc8351bbecf2128444422138922361e38a765e",
+        "sha256:298452001aa56bf27db89166a238efcb38a429b71a92323a10686bd3a78ad7d7"
+      ],
+      "key": "database_failure_chain",
+      "local_score": 0.0,
+      "opposition": 0.0,
+      "reason": "dependency destroyed: sha256:67212a803a207d3e95fdb914c1bc8351bbecf2128444422138922361e38a765e",
+      "score": -0.72197309417,
+      "status": "destroyed",
+      "support": 0.0
+    },
+    "database_healthy": {
+      "amplitude_imag": 0.0,
+      "amplitude_real": 1.9,
+      "cid": "sha256:b07b0165233979cd83d21c3f43218cb5f939486ce016bffe52bed728f5649649",
+      "coherence": 1.0,
+      "dependency_cids": [],
+      "key": "database_healthy",
+      "local_score": 1.0,
+      "opposition": 0.0,
+      "reason": "CID memo reuse: residual support survives destructive evaluation",
+      "score": 1.0,
+      "status": "survives",
+      "support": 1.9
+    },
+    "database_healthy_alias": {
+      "amplitude_imag": 0.0,
+      "amplitude_real": 1.9,
+      "cid": "sha256:b07b0165233979cd83d21c3f43218cb5f939486ce016bffe52bed728f5649649",
+      "coherence": 1.0,
+      "dependency_cids": [],
+      "key": "database_healthy_alias",
+      "local_score": 1.0,
+      "opposition": 0.0,
+      "reason": "CID memo reuse: residual support survives destructive evaluation",
+      "score": 1.0,
+      "status": "survives",
+      "support": 1.9
+    },
+    "database_primary_failed": {
+      "amplitude_imag": 0.0,
+      "amplitude_real": -1.61,
+      "cid": "sha256:67212a803a207d3e95fdb914c1bc8351bbecf2128444422138922361e38a765e",
+      "coherence": 0.72197309417,
+      "dependency_cids": [],
+      "key": "database_primary_failed",
+      "local_score": -0.72197309417,
+      "opposition": 1.92,
+      "reason": "destructive cancellation: local opposing amplitude dominates",
+      "score": -0.72197309417,
+      "status": "destroyed",
+      "support": 0.31
+    },
+    "deployment_failure_chain": {
+      "amplitude_imag": 0.0,
+      "amplitude_real": 0.0,
+      "cid": "sha256:5bd5fa7ccd3e199f346a881766e5c3cbb866482d1fd96dba898e4fc2dad89a62",
+      "coherence": 0.0,
+      "dependency_cids": [
+        "sha256:01966196d15a7804edac59649e78762d6ef4eb381a1e5d2c4df0c81123c1caf4",
+        "sha256:e5170a1d026d2e07e2fd63b3dd9a823760619024f756653a383fc87c75f8af32",
+        "sha256:b07b0165233979cd83d21c3f43218cb5f939486ce016bffe52bed728f5649649"
+      ],
+      "key": "deployment_failure_chain",
+      "local_score": 0.0,
+      "opposition": 0.0,
+      "reason": "dependency destroyed: sha256:01966196d15a7804edac59649e78762d6ef4eb381a1e5d2c4df0c81123c1caf4",
+      "score": -0.693617021277,
+      "status": "destroyed",
+      "support": 0.0
+    },
+    "deployment_preceded_outage": {
+      "amplitude_imag": 0.0,
+      "amplitude_real": -0.815,
+      "cid": "sha256:01966196d15a7804edac59649e78762d6ef4eb381a1e5d2c4df0c81123c1caf4",
+      "coherence": 0.693617021277,
+      "dependency_cids": [],
+      "key": "deployment_preceded_outage",
+      "local_score": -0.693617021277,
+      "opposition": 0.995,
+      "reason": "destructive cancellation: local opposing amplitude dominates",
+      "score": -0.693617021277,
+      "status": "destroyed",
+      "support": 0.18
+    },
+    "deployment_present": {
+      "amplitude_imag": 0.0,
+      "amplitude_real": 0.99,
+      "cid": "sha256:e5170a1d026d2e07e2fd63b3dd9a823760619024f756653a383fc87c75f8af32",
+      "coherence": 1.0,
+      "dependency_cids": [],
+      "key": "deployment_present",
+      "local_score": 1.0,
+      "opposition": 0.0,
+      "reason": "residual support survives destructive evaluation",
+      "score": 1.0,
+      "status": "survives",
+      "support": 0.99
+    },
+    "network_failure_chain": {
+      "amplitude_imag": 0.0,
+      "amplitude_real": 0.91,
+      "cid": "sha256:fe737440df39f975aa7dae1ab8525c46397cf0952c91482f19bb013c2d056e94",
+      "coherence": 1.0,
+      "dependency_cids": [
+        "sha256:cb98d36b67255cb74d6a1de0e8093b7601f5e2ab5b09cd2f1a40da691ca2379b"
+      ],
+      "key": "network_failure_chain",
+      "local_score": 1.0,
+      "opposition": 0.0,
+      "reason": "dependency destroyed: sha256:cb98d36b67255cb74d6a1de0e8093b7601f5e2ab5b09cd2f1a40da691ca2379b",
+      "score": -0.606557377049,
+      "status": "destroyed",
+      "support": 0.91
+    },
+    "packet_loss_event": {
+      "amplitude_imag": 0.0,
+      "amplitude_real": -0.74,
+      "cid": "sha256:cb98d36b67255cb74d6a1de0e8093b7601f5e2ab5b09cd2f1a40da691ca2379b",
+      "coherence": 0.606557377049,
+      "dependency_cids": [],
+      "key": "packet_loss_event",
+      "local_score": -0.606557377049,
+      "opposition": 0.98,
+      "reason": "destructive cancellation: local opposing amplitude dominates",
+      "score": -0.606557377049,
+      "status": "destroyed",
+      "support": 0.24
+    },
+    "traffic_spike": {
+      "amplitude_imag": 0.0,
+      "amplitude_real": 0.96,
+      "cid": "sha256:298452001aa56bf27db89166a238efcb38a429b71a92323a10686bd3a78ad7d7",
+      "coherence": 1.0,
+      "dependency_cids": [],
+      "key": "traffic_spike",
+      "local_score": 1.0,
+      "opposition": 0.0,
+      "reason": "CID memo reuse: residual support survives destructive evaluation",
+      "score": 1.0,
+      "status": "survives",
+      "support": 0.96
+    }
+  },
+  "schema": "qids-cam/solve-result/v1",
+  "trace": [
+    {
+      "cid": "sha256:d08db1042ef6e5e26ca2de94e081ea5e6f5bb20ffc8e18bb341f53171bc7a068",
+      "detail": "Cache-key regression triggered a cache stampede",
+      "event": "candidate",
+      "score": null,
+      "status": null,
+      "step": 1,
+      "subject": "cache_stampede"
+    },
+    {
+      "cid": "sha256:298452001aa56bf27db89166a238efcb38a429b71a92323a10686bd3a78ad7d7",
+      "detail": "A sudden traffic spike preceded the outage.",
+      "event": "expand",
+      "score": null,
+      "status": null,
+      "step": 2,
+      "subject": "traffic_spike"
+    },
+    {
+      "cid": "sha256:298452001aa56bf27db89166a238efcb38a429b71a92323a10686bd3a78ad7d7",
+      "detail": "residual support survives destructive evaluation",
+      "event": "resolve",
+      "score": 1.0,
+      "status": "survives",
+      "step": 3,
+      "subject": "traffic_spike"
+    },
+    {
+      "cid": "sha256:b07b0165233979cd83d21c3f43218cb5f939486ce016bffe52bed728f5649649",
+      "detail": "The database remained operational during initial onset.",
+      "event": "expand",
+      "score": null,
+      "status": null,
+      "step": 4,
+      "subject": "database_healthy"
+    },
+    {
+      "cid": "sha256:b07b0165233979cd83d21c3f43218cb5f939486ce016bffe52bed728f5649649",
+      "detail": "residual support survives destructive evaluation",
+      "event": "resolve",
+      "score": 1.0,
+      "status": "survives",
+      "step": 5,
+      "subject": "database_healthy"
+    },
+    {
+      "cid": "sha256:73defc1692e5629bba9b4826de35271658c4450b12f884b1ecb0141c1b032fb5",
+      "detail": "The observed chronology is compatible with a cache-triggered outage.",
+      "event": "expand",
+      "score": null,
+      "status": null,
+      "step": 6,
+      "subject": "cache_timeline"
+    },
+    {
+      "cid": "sha256:298452001aa56bf27db89166a238efcb38a429b71a92323a10686bd3a78ad7d7",
+      "detail": "CID memo reuse: residual support survives destructive evaluation",
+      "event": "memo-hit",
+      "score": 1.0,
+      "status": "survives",
+      "step": 7,
+      "subject": "traffic_spike"
+    },
+    {
+      "cid": "sha256:b07b0165233979cd83d21c3f43218cb5f939486ce016bffe52bed728f5649649",
+      "detail": "CID memo reuse: residual support survives destructive evaluation",
+      "event": "memo-hit",
+      "score": 1.0,
+      "status": "survives",
+      "step": 8,
+      "subject": "database_healthy"
+    },
+    {
+      "cid": "sha256:0fd9159b1cfeedd95c4aff0a09a40a4ade84537dcd38e25c1cd4e77db96f24f6",
+      "detail": "A cache miss wave amplified origin load.",
+      "event": "expand",
+      "score": null,
+      "status": null,
+      "step": 9,
+      "subject": "cache_miss_wave"
+    },
+    {
+      "cid": "sha256:0fd9159b1cfeedd95c4aff0a09a40a4ade84537dcd38e25c1cd4e77db96f24f6",
+      "detail": "residual support survives destructive evaluation",
+      "event": "resolve",
+      "score": 1.0,
+      "status": "survives",
+      "step": 10,
+      "subject": "cache_miss_wave"
+    },
+    {
+      "cid": "sha256:73defc1692e5629bba9b4826de35271658c4450b12f884b1ecb0141c1b032fb5",
+      "detail": "residual support survives destructive evaluation",
+      "event": "resolve",
+      "score": 1.0,
+      "status": "survives",
+      "step": 11,
+      "subject": "cache_timeline"
+    },
+    {
+      "cid": "sha256:0fd9159b1cfeedd95c4aff0a09a40a4ade84537dcd38e25c1cd4e77db96f24f6",
+      "detail": "CID memo reuse: residual support survives destructive evaluation",
+      "event": "memo-hit",
+      "score": 1.0,
+      "status": "survives",
+      "step": 12,
+      "subject": "cache_miss_wave"
+    },
+    {
+      "cid": "sha256:d08db1042ef6e5e26ca2de94e081ea5e6f5bb20ffc8e18bb341f53171bc7a068",
+      "detail": "all required propositions survived",
+      "event": "candidate-resolved",
+      "score": 1.0,
+      "status": "survives",
+      "step": 13,
+      "subject": "cache_stampede"
+    },
+    {
+      "cid": "sha256:56814c46eebed89d25e927dcfa8edd890567c6717d87bca3309a01bcec742f4f",
+      "detail": "Database primary failure",
+      "event": "candidate",
+      "score": null,
+      "status": null,
+      "step": 14,
+      "subject": "database_failure"
+    },
+    {
+      "cid": "sha256:51aa97ad9bf38fc7d010f356688b59685036ce8b4c5c7da20ce517a1b32760a5",
+      "detail": "Database failure explains the checkout errors.",
+      "event": "expand",
+      "score": null,
+      "status": null,
+      "step": 15,
+      "subject": "database_failure_chain"
+    },
+    {
+      "cid": "sha256:67212a803a207d3e95fdb914c1bc8351bbecf2128444422138922361e38a765e",
+      "detail": "The database primary failed at incident onset.",
+      "event": "expand",
+      "score": null,
+      "status": null,
+      "step": 16,
+      "subject": "database_primary_failed"
+    },
+    {
+      "cid": "sha256:67212a803a207d3e95fdb914c1bc8351bbecf2128444422138922361e38a765e",
+      "detail": "destructive cancellation: local opposing amplitude dominates",
+      "event": "destroy",
+      "score": -0.72197309,
+      "status": "destroyed",
+      "step": 17,
+      "subject": "database_primary_failed"
+    },
+    {
+      "cid": "sha256:298452001aa56bf27db89166a238efcb38a429b71a92323a10686bd3a78ad7d7",
+      "detail": "CID memo reuse: residual support survives destructive evaluation",
+      "event": "memo-hit",
+      "score": 1.0,
+      "status": "survives",
+      "step": 18,
+      "subject": "traffic_spike"
+    },
+    {
+      "cid": "sha256:51aa97ad9bf38fc7d010f356688b59685036ce8b4c5c7da20ce517a1b32760a5",
+      "detail": "dependency destroyed: sha256:67212a803a207d3e95fdb914c1bc8351bbecf2128444422138922361e38a765e",
+      "event": "destroy",
+      "score": -0.72197309,
+      "status": "destroyed",
+      "step": 19,
+      "subject": "database_failure_chain"
+    },
+    {
+      "cid": "sha256:56814c46eebed89d25e927dcfa8edd890567c6717d87bca3309a01bcec742f4f",
+      "detail": "requirement destroyed: database_failure_chain (sha256:51aa97ad9bf38fc7d010f356688b59685036ce8b4c5c7da20ce517a1b32760a5)",
+      "event": "candidate-destroyed",
+      "score": -1.0,
+      "status": "destroyed",
+      "step": 20,
+      "subject": "database_failure"
+    },
+    {
+      "cid": "sha256:ddd192cefc5fe58613604e3b3a778ddce2233475db7367a0d5e15a728ee76746",
+      "detail": "Multi-region network partition",
+      "event": "candidate",
+      "score": null,
+      "status": null,
+      "step": 21,
+      "subject": "network_partition"
+    },
+    {
+      "cid": "sha256:fe737440df39f975aa7dae1ab8525c46397cf0952c91482f19bb013c2d056e94",
+      "detail": "A multi-region network partition explains the checkout errors.",
+      "event": "expand",
+      "score": null,
+      "status": null,
+      "step": 22,
+      "subject": "network_failure_chain"
+    },
+    {
+      "cid": "sha256:cb98d36b67255cb74d6a1de0e8093b7601f5e2ab5b09cd2f1a40da691ca2379b",
+      "detail": "A network packet-loss event caused the outage.",
+      "event": "expand",
+      "score": null,
+      "status": null,
+      "step": 23,
+      "subject": "packet_loss_event"
+    },
+    {
+      "cid": "sha256:cb98d36b67255cb74d6a1de0e8093b7601f5e2ab5b09cd2f1a40da691ca2379b",
+      "detail": "destructive cancellation: local opposing amplitude dominates",
+      "event": "destroy",
+      "score": -0.60655738,
+      "status": "destroyed",
+      "step": 24,
+      "subject": "packet_loss_event"
+    },
+    {
+      "cid": "sha256:fe737440df39f975aa7dae1ab8525c46397cf0952c91482f19bb013c2d056e94",
+      "detail": "dependency destroyed: sha256:cb98d36b67255cb74d6a1de0e8093b7601f5e2ab5b09cd2f1a40da691ca2379b",
+      "event": "destroy",
+      "score": -0.60655738,
+      "status": "destroyed",
+      "step": 25,
+      "subject": "network_failure_chain"
+    },
+    {
+      "cid": "sha256:ddd192cefc5fe58613604e3b3a778ddce2233475db7367a0d5e15a728ee76746",
+      "detail": "requirement destroyed: network_failure_chain (sha256:fe737440df39f975aa7dae1ab8525c46397cf0952c91482f19bb013c2d056e94)",
+      "event": "candidate-destroyed",
+      "score": -1.0,
+      "status": "destroyed",
+      "step": 26,
+      "subject": "network_partition"
+    },
+    {
+      "cid": "sha256:7796a8ba26e85e8f184aeb49ef203257c7c3bd2daac70c19d03ff104a4521dd8",
+      "detail": "A newly deployed application regression",
+      "event": "candidate",
+      "score": null,
+      "status": null,
+      "step": 27,
+      "subject": "bad_deploy"
+    },
+    {
+      "cid": "sha256:5bd5fa7ccd3e199f346a881766e5c3cbb866482d1fd96dba898e4fc2dad89a62",
+      "detail": "The release chronology supports a deploy-regression explanation.",
+      "event": "expand",
+      "score": null,
+      "status": null,
+      "step": 28,
+      "subject": "deployment_failure_chain"
+    },
+    {
+      "cid": "sha256:01966196d15a7804edac59649e78762d6ef4eb381a1e5d2c4df0c81123c1caf4",
+      "detail": "The release was deployed before incident onset.",
+      "event": "expand",
+      "score": null,
+      "status": null,
+      "step": 29,
+      "subject": "deployment_preceded_outage"
+    },
+    {
+      "cid": "sha256:01966196d15a7804edac59649e78762d6ef4eb381a1e5d2c4df0c81123c1caf4",
+      "detail": "destructive cancellation: local opposing amplitude dominates",
+      "event": "destroy",
+      "score": -0.69361702,
+      "status": "destroyed",
+      "step": 30,
+      "subject": "deployment_preceded_outage"
+    },
+    {
+      "cid": "sha256:e5170a1d026d2e07e2fd63b3dd9a823760619024f756653a383fc87c75f8af32",
+      "detail": "A checkout release existed on the incident date.",
+      "event": "expand",
+      "score": null,
+      "status": null,
+      "step": 31,
+      "subject": "deployment_present"
+    },
+    {
+      "cid": "sha256:e5170a1d026d2e07e2fd63b3dd9a823760619024f756653a383fc87c75f8af32",
+      "detail": "residual support survives destructive evaluation",
+      "event": "resolve",
+      "score": 1.0,
+      "status": "survives",
+      "step": 32,
+      "subject": "deployment_present"
+    },
+    {
+      "cid": "sha256:b07b0165233979cd83d21c3f43218cb5f939486ce016bffe52bed728f5649649",
+      "detail": "CID memo reuse: residual support survives destructive evaluation",
+      "event": "memo-hit",
+      "score": 1.0,
+      "status": "survives",
+      "step": 33,
+      "subject": "database_healthy_alias"
+    },
+    {
+      "cid": "sha256:5bd5fa7ccd3e199f346a881766e5c3cbb866482d1fd96dba898e4fc2dad89a62",
+      "detail": "dependency destroyed: sha256:01966196d15a7804edac59649e78762d6ef4eb381a1e5d2c4df0c81123c1caf4",
+      "event": "destroy",
+      "score": -0.69361702,
+      "status": "destroyed",
+      "step": 34,
+      "subject": "deployment_failure_chain"
+    },
+    {
+      "cid": "sha256:7796a8ba26e85e8f184aeb49ef203257c7c3bd2daac70c19d03ff104a4521dd8",
+      "detail": "requirement destroyed: deployment_failure_chain (sha256:5bd5fa7ccd3e199f346a881766e5c3cbb866482d1fd96dba898e4fc2dad89a62)",
+      "event": "candidate-destroyed",
+      "score": -1.0,
+      "status": "destroyed",
+      "step": 35,
+      "subject": "bad_deploy"
+    }
+  ],
+  "winner": "cache_stampede"
+}

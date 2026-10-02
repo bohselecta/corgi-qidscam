@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.venv/
+build/
+*.egg-info/
+dist/
+proof.json
+run.json
+suite.json
+RELEASE-EVIDENCE.md
+.verification/

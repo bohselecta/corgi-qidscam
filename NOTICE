@@ -1,0 +1,15 @@
+QIDS-CAM
+Copyright 2026 Hayden Lindley
+
+Concept originated and directed by Hayden Lindley.
+
+This product includes software developed as the QIDS-CAM reference research
+implementation. Use and redistribution are governed by the Apache License,
+Version 2.0. Scholarly and professional use should preserve citation and credit
+to Hayden Lindley as described in CITATION.cff and AUTHORS.md.
+
+This 0.2.0 derivative preserves the original attribution. Modified graph
+validation, evaluation semantics, immutable storage, proof format, inspection,
+reference evaluation and benchmark tooling are documented in CHANGELOG.md.
+Publisher: Corgi-verse Software, https://corgi-verse.com. No copyright transfer
+is asserted.

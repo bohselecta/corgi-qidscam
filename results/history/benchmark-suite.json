@@ -1,0 +1,230 @@
+{
+  "results": [
+    {
+      "answer_parity": true,
+      "problem": {
+        "candidate_count": 16,
+        "evidence_count": 65,
+        "expected_winner": "candidate_0000",
+        "problem_id": "shared-subgraph-small-seed-7",
+        "proposition_count": 30
+      },
+      "ratios": {
+        "expansion_reduction_vs_destructive_only": 3.4545,
+        "expansion_reduction_vs_exhaustive": 11.6364
+      },
+      "runs": {
+        "destructive-only": {
+          "avoided_requirements": 45,
+          "candidate_evaluations": 16,
+          "early_prunes": 15,
+          "elapsed_ms": 2.35,
+          "evidence_reads": 175,
+          "learned_nogoods": 0,
+          "memo_hits": 0,
+          "nogood_hits": 0,
+          "proof_root": "sha256:44ee2e90a2642dfee6d813f03ae7fc4a058e49db4aa9d9c0edf2fa86021a427f",
+          "proposition_expansions": 76,
+          "unique_merkle_nodes": 129,
+          "winner": "candidate_0000"
+        },
+        "independent-exhaustive": {
+          "avoided_requirements": 0,
+          "candidate_evaluations": 16,
+          "early_prunes": 0,
+          "elapsed_ms": 3.9517,
+          "evidence_reads": 625,
+          "learned_nogoods": 0,
+          "memo_hits": 0,
+          "nogood_hits": 0,
+          "proof_root": "sha256:6ffcd24c83b5c339d5d79508aaae01f51355e4afaa2d12dd5e3aae03eeb5747c",
+          "proposition_expansions": 256,
+          "unique_merkle_nodes": 129,
+          "winner": "candidate_0000"
+        },
+        "merkle-memory-only": {
+          "avoided_requirements": 0,
+          "candidate_evaluations": 16,
+          "early_prunes": 0,
+          "elapsed_ms": 2.3241,
+          "evidence_reads": 65,
+          "learned_nogoods": 0,
+          "memo_hits": 67,
+          "nogood_hits": 0,
+          "proof_root": "sha256:73567023b41aa05c56e9a81c9ec702803d7372f02cff35c1731b2a5f04e9f498",
+          "proposition_expansions": 30,
+          "unique_merkle_nodes": 129,
+          "winner": "candidate_0000"
+        },
+        "qids-cam": {
+          "avoided_requirements": 45,
+          "candidate_evaluations": 16,
+          "early_prunes": 15,
+          "elapsed_ms": 2.0849,
+          "evidence_reads": 49,
+          "learned_nogoods": 6,
+          "memo_hits": 6,
+          "nogood_hits": 12,
+          "proof_root": "sha256:4ce1e7c5861db860dc1f7145c23a2d00aa306a5aa789b8fde703921e07491ba8",
+          "proposition_expansions": 22,
+          "unique_merkle_nodes": 129,
+          "winner": "candidate_0000"
+        }
+      },
+      "scale": "small",
+      "schema": "qids-cam/benchmark-result/v1",
+      "seed": 7
+    },
+    {
+      "answer_parity": true,
+      "problem": {
+        "candidate_count": 128,
+        "evidence_count": 192,
+        "expected_winner": "candidate_0000",
+        "problem_id": "shared-subgraph-medium-seed-7",
+        "proposition_count": 88
+      },
+      "ratios": {
+        "expansion_reduction_vs_destructive_only": 10.5098,
+        "expansion_reduction_vs_exhaustive": 70.2745
+      },
+      "runs": {
+        "destructive-only": {
+          "avoided_requirements": 762,
+          "candidate_evaluations": 128,
+          "early_prunes": 127,
+          "elapsed_ms": 12.4922,
+          "evidence_reads": 1213,
+          "learned_nogoods": 0,
+          "memo_hits": 0,
+          "nogood_hits": 0,
+          "proof_root": "sha256:122f29fdc3472812b9f63d845b0b8cc80038062fba4b3191f703cbd4f12c64c4",
+          "proposition_expansions": 536,
+          "unique_merkle_nodes": 538,
+          "winner": "candidate_0000"
+        },
+        "independent-exhaustive": {
+          "avoided_requirements": 0,
+          "candidate_evaluations": 128,
+          "early_prunes": 0,
+          "elapsed_ms": 32.3053,
+          "evidence_reads": 8833,
+          "learned_nogoods": 0,
+          "memo_hits": 0,
+          "nogood_hits": 0,
+          "proof_root": "sha256:200aac39c029a67ef3c1cc16c341207f8491c9f28f4654d538405515155d827d",
+          "proposition_expansions": 3584,
+          "unique_merkle_nodes": 538,
+          "winner": "candidate_0000"
+        },
+        "merkle-memory-only": {
+          "avoided_requirements": 0,
+          "candidate_evaluations": 128,
+          "early_prunes": 0,
+          "elapsed_ms": 12.839,
+          "evidence_reads": 192,
+          "learned_nogoods": 0,
+          "memo_hits": 904,
+          "nogood_hits": 0,
+          "proof_root": "sha256:efd122c750485b93ebfcb04a3eeac7056c6439d9003004e6740a7c70bc230104",
+          "proposition_expansions": 88,
+          "unique_merkle_nodes": 538,
+          "winner": "candidate_0000"
+        },
+        "qids-cam": {
+          "avoided_requirements": 762,
+          "candidate_evaluations": 128,
+          "early_prunes": 127,
+          "elapsed_ms": 9.5485,
+          "evidence_reads": 115,
+          "learned_nogoods": 16,
+          "memo_hits": 9,
+          "nogood_hits": 119,
+          "proof_root": "sha256:08560fcac4cbf7e0d1dffdf9809a3afbe42e17ef1b18d22fe035a956e3322f31",
+          "proposition_expansions": 51,
+          "unique_merkle_nodes": 538,
+          "winner": "candidate_0000"
+        }
+      },
+      "scale": "medium",
+      "schema": "qids-cam/benchmark-result/v1",
+      "seed": 7
+    },
+    {
+      "answer_parity": true,
+      "problem": {
+        "candidate_count": 1024,
+        "evidence_count": 384,
+        "expected_winner": "candidate_0000",
+        "problem_id": "shared-subgraph-large-seed-7",
+        "proposition_count": 176
+      },
+      "ratios": {
+        "expansion_reduction_vs_destructive_only": 46.9091,
+        "expansion_reduction_vs_exhaustive": 418.9091
+      },
+      "runs": {
+        "destructive-only": {
+          "avoided_requirements": 8184,
+          "candidate_evaluations": 1024,
+          "early_prunes": 1023,
+          "elapsed_ms": 79.6014,
+          "evidence_reads": 9297,
+          "learned_nogoods": 0,
+          "memo_hits": 0,
+          "nogood_hits": 0,
+          "proof_root": "sha256:1250b48c3e6a650c194b27b7c4acd03aa5f4da0e8dde7e30e761da6c589e8748",
+          "proposition_expansions": 4128,
+          "unique_merkle_nodes": 2610,
+          "winner": "candidate_0000"
+        },
+        "independent-exhaustive": {
+          "avoided_requirements": 0,
+          "candidate_evaluations": 1024,
+          "early_prunes": 0,
+          "elapsed_ms": 326.7915,
+          "evidence_reads": 91137,
+          "learned_nogoods": 0,
+          "memo_hits": 0,
+          "nogood_hits": 0,
+          "proof_root": "sha256:df6cf49986c452680d33fb984f6b49838da3ac6b9fc115c18187282f6c8e6a89",
+          "proposition_expansions": 36864,
+          "unique_merkle_nodes": 2610,
+          "winner": "candidate_0000"
+        },
+        "merkle-memory-only": {
+          "avoided_requirements": 0,
+          "candidate_evaluations": 1024,
+          "early_prunes": 0,
+          "elapsed_ms": 83.5242,
+          "evidence_reads": 384,
+          "learned_nogoods": 0,
+          "memo_hits": 9232,
+          "nogood_hits": 0,
+          "proof_root": "sha256:58d5e6cc16b7fba15dd6e485790cae833e9e2b2f559801a9e88300af3cbe2b74",
+          "proposition_expansions": 176,
+          "unique_merkle_nodes": 2610,
+          "winner": "candidate_0000"
+        },
+        "qids-cam": {
+          "avoided_requirements": 8184,
+          "candidate_evaluations": 1024,
+          "early_prunes": 1023,
+          "elapsed_ms": 56.3,
+          "evidence_reads": 198,
+          "learned_nogoods": 32,
+          "memo_hits": 12,
+          "nogood_hits": 1007,
+          "proof_root": "sha256:a123a227de5bd7fca9c58e7703d48498148aebc81fb5f7c3546027341fd21d7e",
+          "proposition_expansions": 88,
+          "unique_merkle_nodes": 2610,
+          "winner": "candidate_0000"
+        }
+      },
+      "scale": "large",
+      "schema": "qids-cam/benchmark-result/v1",
+      "seed": 7
+    }
+  ],
+  "schema": "qids-cam/benchmark-suite/v1"
+}

@@ -1,0 +1,11 @@
+winner:      cache_stampede
+problem CID: sha256:cbcfd2e080e93b70bdc878e98f147e4f1bbd815e1c39d95f850a416183ff0a99
+proof CID:   sha256:e34dbdc25a993ece19abb68f5b3b3817de986c2f5fbe1ff5a28041eb602cb9f8
+candidate outcomes:
+  cache_stampede              survives   all required propositions survived
+  bad_deploy                  destroyed  requirement destroyed: recent_deploy (sha256:5be727f08c43328b4f29c261bc12c5ac62d0479bb1c6a69286a5d81f74e28e31)
+  release_regression_alias    destroyed  requirement destroyed: release_regression (sha256:5be727f08c43328b4f29c261bc12c5ac62d0479bb1c6a69286a5d81f74e28e31)
+  database_failure            destroyed  requirement destroyed: primary_database_failure (sha256:06a3375f27011ec3fbe80045aefd369dd269693e1b928e1fed964f55d662ae26)
+semantic alias shares CID: True
+no-good hits: 1
+verified archive: results/rag-adapter-proof.json

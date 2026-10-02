@@ -1,0 +1,218 @@
+{
+  "schema": "qids-cam/problem/v1",
+  "problem_id": "outage-2026-08-17",
+  "query": "Which hypothesis best explains the 01:42 UTC checkout outage?",
+  "metadata": {
+    "domain": "RAG-shaped incident investigation",
+    "expected_winner": "cache_stampede",
+    "note": "All evidence is synthetic and included only to demonstrate the algorithm."
+  },
+  "evidence": [
+    {
+      "key": "request_spike",
+      "text": "Ingress telemetry shows request volume rose 4.8x beginning at 01:41:37 UTC.",
+      "stance": 1,
+      "confidence": 0.96,
+      "source": "telemetry://edge/requests"
+    },
+    {
+      "key": "cache_hit_collapse",
+      "text": "Cache hit ratio fell from 93% to 11% during the first minute of the incident.",
+      "stance": 1,
+      "confidence": 0.99,
+      "source": "telemetry://cache/hit-ratio"
+    },
+    {
+      "key": "origin_fanout",
+      "text": "Origin request fan-out rose in the same second that cache hits collapsed.",
+      "stance": 1,
+      "confidence": 0.97,
+      "source": "trace://origin/fanout"
+    },
+    {
+      "key": "cache_key_report",
+      "text": "A deploy note mentions a cache-key normalization change in the previous release.",
+      "stance": 1,
+      "confidence": 0.82,
+      "source": "release://checkout/1842"
+    },
+    {
+      "key": "db_cpu_healthy",
+      "text": "Database primary CPU stayed below 46% throughout the first six minutes.",
+      "stance": 1,
+      "confidence": 0.94,
+      "source": "telemetry://db-primary/cpu"
+    },
+    {
+      "key": "db_replication_healthy",
+      "text": "Replication lag remained below 18 ms and no failover was initiated.",
+      "stance": 1,
+      "confidence": 0.96,
+      "source": "telemetry://db/replication"
+    },
+    {
+      "key": "db_failure_rumor",
+      "text": "An early chat message speculated that the database primary had failed.",
+      "stance": 1,
+      "confidence": 0.31,
+      "source": "chat://incident/early-rumor"
+    },
+    {
+      "key": "db_no_failover",
+      "text": "The database control plane records no primary loss or failover event.",
+      "stance": -1,
+      "confidence": 0.99,
+      "source": "control://db/failover-log"
+    },
+    {
+      "key": "db_connections_normal",
+      "text": "Connection count and rejected connections remained within the normal band.",
+      "stance": -1,
+      "confidence": 0.93,
+      "source": "telemetry://db/connections"
+    },
+    {
+      "key": "packet_loss_rumor",
+      "text": "One regional operator reported a brief packet-loss alert.",
+      "stance": 1,
+      "confidence": 0.24,
+      "source": "report://network/operator-3"
+    },
+    {
+      "key": "packet_loss_absent",
+      "text": "Synthetic probes across all regions show no correlated packet-loss event.",
+      "stance": -1,
+      "confidence": 0.98,
+      "source": "telemetry://network/synthetic-probes"
+    },
+    {
+      "key": "multi_region_symptom",
+      "text": "Checkout errors appeared in every region within a 12-second window.",
+      "stance": 1,
+      "confidence": 0.91,
+      "source": "telemetry://checkout/errors-by-region"
+    },
+    {
+      "key": "deploy_exists",
+      "text": "Release 1842 was deployed on the same date as the incident.",
+      "stance": 1,
+      "confidence": 0.99,
+      "source": "release://checkout/1842"
+    },
+    {
+      "key": "deploy_before_weak",
+      "text": "A manually written timeline initially placed the release before the outage.",
+      "stance": 1,
+      "confidence": 0.18,
+      "source": "notes://incident/timeline-v1"
+    },
+    {
+      "key": "deploy_after_onset",
+      "text": "Signed deployment events show rollout began at 01:49:12 UTC, seven minutes after onset.",
+      "stance": -1,
+      "confidence": 0.995,
+      "source": "control://deploy/signed-events"
+    },
+    {
+      "key": "error_signature_cache",
+      "text": "The dominant trace signature is origin timeout following cache lookup miss.",
+      "stance": 1,
+      "confidence": 0.95,
+      "source": "trace://checkout/dominant-signature"
+    },
+    {
+      "key": "recovery_after_cache_flush",
+      "text": "Error rate returned to baseline 38 seconds after the cache namespace was flushed.",
+      "stance": 1,
+      "confidence": 0.98,
+      "source": "timeline://mitigation/cache-flush"
+    }
+  ],
+  "propositions": [
+    {
+      "key": "traffic_spike",
+      "statement": "A sudden traffic spike preceded the outage.",
+      "evidence": ["request_spike"]
+    },
+    {
+      "key": "cache_miss_wave",
+      "statement": "A cache miss wave amplified origin load.",
+      "evidence": ["cache_hit_collapse", "origin_fanout", "error_signature_cache"]
+    },
+    {
+      "key": "database_healthy",
+      "statement": "The database remained operational during initial onset.",
+      "evidence": ["db_cpu_healthy", "db_replication_healthy"]
+    },
+    {
+      "key": "database_healthy_alias",
+      "statement": "The database remained operational during initial onset.",
+      "evidence": ["db_cpu_healthy", "db_replication_healthy"]
+    },
+    {
+      "key": "cache_timeline",
+      "statement": "The observed chronology is compatible with a cache-triggered outage.",
+      "evidence": ["cache_key_report", "recovery_after_cache_flush"],
+      "depends_on": ["traffic_spike", "cache_miss_wave", "database_healthy"]
+    },
+    {
+      "key": "database_primary_failed",
+      "statement": "The database primary failed at incident onset.",
+      "evidence": ["db_failure_rumor", "db_no_failover", "db_connections_normal"]
+    },
+    {
+      "key": "database_failure_chain",
+      "statement": "Database failure explains the checkout errors.",
+      "depends_on": ["traffic_spike", "database_primary_failed"]
+    },
+    {
+      "key": "packet_loss_event",
+      "statement": "A network packet-loss event caused the outage.",
+      "evidence": ["packet_loss_rumor", "packet_loss_absent"]
+    },
+    {
+      "key": "network_failure_chain",
+      "statement": "A multi-region network partition explains the checkout errors.",
+      "evidence": ["multi_region_symptom"],
+      "depends_on": ["packet_loss_event"]
+    },
+    {
+      "key": "deployment_present",
+      "statement": "A checkout release existed on the incident date.",
+      "evidence": ["deploy_exists"]
+    },
+    {
+      "key": "deployment_preceded_outage",
+      "statement": "The release was deployed before incident onset.",
+      "evidence": ["deploy_before_weak", "deploy_after_onset"]
+    },
+    {
+      "key": "deployment_failure_chain",
+      "statement": "The release chronology supports a deploy-regression explanation.",
+      "depends_on": ["deployment_present", "deployment_preceded_outage", "database_healthy_alias"]
+    }
+  ],
+  "candidates": [
+    {
+      "key": "cache_stampede",
+      "label": "Cache-key regression triggered a cache stampede",
+      "requires": ["traffic_spike", "cache_miss_wave", "database_healthy", "cache_timeline"],
+      "prior": 0.03
+    },
+    {
+      "key": "database_failure",
+      "label": "Database primary failure",
+      "requires": ["traffic_spike", "database_failure_chain"]
+    },
+    {
+      "key": "network_partition",
+      "label": "Multi-region network partition",
+      "requires": ["network_failure_chain"]
+    },
+    {
+      "key": "bad_deploy",
+      "label": "A newly deployed application regression",
+      "requires": ["deployment_present", "database_healthy_alias", "deployment_failure_chain"]
+    }
+  ]
+}

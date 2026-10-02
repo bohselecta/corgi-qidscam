@@ -1,0 +1,75 @@
+{
+  "answer_parity": true,
+  "problem": {
+    "candidate_count": 16,
+    "evidence_count": 65,
+    "expected_winner": "candidate_0000",
+    "problem_id": "shared-subgraph-small-seed-7",
+    "proposition_count": 30
+  },
+  "ratios": {
+    "expansion_reduction_vs_destructive_only": 3.4545,
+    "expansion_reduction_vs_exhaustive": 11.6364
+  },
+  "runs": {
+    "destructive-only": {
+      "avoided_requirements": 45,
+      "candidate_evaluations": 16,
+      "early_prunes": 15,
+      "elapsed_ms": 2.35,
+      "evidence_reads": 175,
+      "learned_nogoods": 0,
+      "memo_hits": 0,
+      "nogood_hits": 0,
+      "proof_root": "sha256:44ee2e90a2642dfee6d813f03ae7fc4a058e49db4aa9d9c0edf2fa86021a427f",
+      "proposition_expansions": 76,
+      "unique_merkle_nodes": 129,
+      "winner": "candidate_0000"
+    },
+    "independent-exhaustive": {
+      "avoided_requirements": 0,
+      "candidate_evaluations": 16,
+      "early_prunes": 0,
+      "elapsed_ms": 3.9517,
+      "evidence_reads": 625,
+      "learned_nogoods": 0,
+      "memo_hits": 0,
+      "nogood_hits": 0,
+      "proof_root": "sha256:6ffcd24c83b5c339d5d79508aaae01f51355e4afaa2d12dd5e3aae03eeb5747c",
+      "proposition_expansions": 256,
+      "unique_merkle_nodes": 129,
+      "winner": "candidate_0000"
+    },
+    "merkle-memory-only": {
+      "avoided_requirements": 0,
+      "candidate_evaluations": 16,
+      "early_prunes": 0,
+      "elapsed_ms": 2.3241,
+      "evidence_reads": 65,
+      "learned_nogoods": 0,
+      "memo_hits": 67,
+      "nogood_hits": 0,
+      "proof_root": "sha256:73567023b41aa05c56e9a81c9ec702803d7372f02cff35c1731b2a5f04e9f498",
+      "proposition_expansions": 30,
+      "unique_merkle_nodes": 129,
+      "winner": "candidate_0000"
+    },
+    "qids-cam": {
+      "avoided_requirements": 45,
+      "candidate_evaluations": 16,
+      "early_prunes": 15,
+      "elapsed_ms": 2.0849,
+      "evidence_reads": 49,
+      "learned_nogoods": 6,
+      "memo_hits": 6,
+      "nogood_hits": 12,
+      "proof_root": "sha256:4ce1e7c5861db860dc1f7145c23a2d00aa306a5aa789b8fde703921e07491ba8",
+      "proposition_expansions": 22,
+      "unique_merkle_nodes": 129,
+      "winner": "candidate_0000"
+    }
+  },
+  "scale": "small",
+  "schema": "qids-cam/benchmark-result/v1",
+  "seed": 7
+}

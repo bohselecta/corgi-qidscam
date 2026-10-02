@@ -1,0 +1,1576 @@
+{
+  "nodes": {
+    "sha256:01966196d15a7804edac59649e78762d6ef4eb381a1e5d2c4df0c81123c1caf4": {
+      "kind": "proposition",
+      "links": [
+        "sha256:0e1b734df532f6f2c898b59a4e16138e1132c512961821987c08959cca89f05c",
+        "sha256:5bc862aaeae8f991c1ff8eee7f65ef41091abcbcfb545bc87fa558fdfbd1a0c8"
+      ],
+      "payload": {
+        "dependencies": [],
+        "evaluation_schema": "qids-cam-evidence-v1",
+        "evidence": [
+          "sha256:0e1b734df532f6f2c898b59a4e16138e1132c512961821987c08959cca89f05c",
+          "sha256:5bc862aaeae8f991c1ff8eee7f65ef41091abcbcfb545bc87fa558fdfbd1a0c8"
+        ],
+        "metadata": {},
+        "statement": "The release was deployed before incident onset."
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:088d55acab3ee6ab5dec99542338e43054bf4000279d7f2d08d84bd50d99cdc5": {
+      "kind": "evidence",
+      "links": [],
+      "payload": {
+        "confidence": 0.95,
+        "phase_degrees": null,
+        "source": "trace://checkout/dominant-signature",
+        "stance": 1,
+        "tags": [],
+        "text": "The dominant trace signature is origin timeout following cache lookup miss."
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:0e1b734df532f6f2c898b59a4e16138e1132c512961821987c08959cca89f05c": {
+      "kind": "evidence",
+      "links": [],
+      "payload": {
+        "confidence": 0.995,
+        "phase_degrees": null,
+        "source": "control://deploy/signed-events",
+        "stance": -1,
+        "tags": [],
+        "text": "Signed deployment events show rollout began at 01:49:12 UTC, seven minutes after onset."
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:0fd9159b1cfeedd95c4aff0a09a40a4ade84537dcd38e25c1cd4e77db96f24f6": {
+      "kind": "proposition",
+      "links": [
+        "sha256:088d55acab3ee6ab5dec99542338e43054bf4000279d7f2d08d84bd50d99cdc5",
+        "sha256:61dd23bfe6c84a72b9b224bf83e7381e97f33e0de72d424389d3a07c710796d2",
+        "sha256:7fc296615ae9a893c275cdafc8159a516491ae75bcb52f02303188086d2d25b2"
+      ],
+      "payload": {
+        "dependencies": [],
+        "evaluation_schema": "qids-cam-evidence-v1",
+        "evidence": [
+          "sha256:088d55acab3ee6ab5dec99542338e43054bf4000279d7f2d08d84bd50d99cdc5",
+          "sha256:61dd23bfe6c84a72b9b224bf83e7381e97f33e0de72d424389d3a07c710796d2",
+          "sha256:7fc296615ae9a893c275cdafc8159a516491ae75bcb52f02303188086d2d25b2"
+        ],
+        "metadata": {},
+        "statement": "A cache miss wave amplified origin load."
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:17657d406b41d9d63af9427aa673d79aa686be267f1deba7e80b556ea6b6e088": {
+      "kind": "solve-input",
+      "links": [],
+      "payload": {
+        "constraints": {},
+        "problem": {
+          "candidates": [
+            {
+              "key": "cache_stampede",
+              "label": "Cache-key regression triggered a cache stampede",
+              "prior": 0.03,
+              "requires": [
+                "traffic_spike",
+                "cache_miss_wave",
+                "database_healthy",
+                "cache_timeline"
+              ]
+            },
+            {
+              "key": "database_failure",
+              "label": "Database primary failure",
+              "prior": 0.0,
+              "requires": [
+                "traffic_spike",
+                "database_failure_chain"
+              ]
+            },
+            {
+              "key": "network_partition",
+              "label": "Multi-region network partition",
+              "prior": 0.0,
+              "requires": [
+                "network_failure_chain"
+              ]
+            },
+            {
+              "key": "bad_deploy",
+              "label": "A newly deployed application regression",
+              "prior": 0.0,
+              "requires": [
+                "deployment_present",
+                "database_healthy_alias",
+                "deployment_failure_chain"
+              ]
+            }
+          ],
+          "evidence": [
+            {
+              "confidence": 0.99,
+              "key": "cache_hit_collapse",
+              "phase_degrees": null,
+              "source": "telemetry://cache/hit-ratio",
+              "stance": 1,
+              "tags": [],
+              "text": "Cache hit ratio fell from 93% to 11% during the first minute of the incident."
+            },
+            {
+              "confidence": 0.82,
+              "key": "cache_key_report",
+              "phase_degrees": null,
+              "source": "release://checkout/1842",
+              "stance": 1,
+              "tags": [],
+              "text": "A deploy note mentions a cache-key normalization change in the previous release."
+            },
+            {
+              "confidence": 0.93,
+              "key": "db_connections_normal",
+              "phase_degrees": null,
+              "source": "telemetry://db/connections",
+              "stance": -1,
+              "tags": [],
+              "text": "Connection count and rejected connections remained within the normal band."
+            },
+            {
+              "confidence": 0.94,
+              "key": "db_cpu_healthy",
+              "phase_degrees": null,
+              "source": "telemetry://db-primary/cpu",
+              "stance": 1,
+              "tags": [],
+              "text": "Database primary CPU stayed below 46% throughout the first six minutes."
+            },
+            {
+              "confidence": 0.31,
+              "key": "db_failure_rumor",
+              "phase_degrees": null,
+              "source": "chat://incident/early-rumor",
+              "stance": 1,
+              "tags": [],
+              "text": "An early chat message speculated that the database primary had failed."
+            },
+            {
+              "confidence": 0.99,
+              "key": "db_no_failover",
+              "phase_degrees": null,
+              "source": "control://db/failover-log",
+              "stance": -1,
+              "tags": [],
+              "text": "The database control plane records no primary loss or failover event."
+            },
+            {
+              "confidence": 0.96,
+              "key": "db_replication_healthy",
+              "phase_degrees": null,
+              "source": "telemetry://db/replication",
+              "stance": 1,
+              "tags": [],
+              "text": "Replication lag remained below 18 ms and no failover was initiated."
+            },
+            {
+              "confidence": 0.995,
+              "key": "deploy_after_onset",
+              "phase_degrees": null,
+              "source": "control://deploy/signed-events",
+              "stance": -1,
+              "tags": [],
+              "text": "Signed deployment events show rollout began at 01:49:12 UTC, seven minutes after onset."
+            },
+            {
+              "confidence": 0.18,
+              "key": "deploy_before_weak",
+              "phase_degrees": null,
+              "source": "notes://incident/timeline-v1",
+              "stance": 1,
+              "tags": [],
+              "text": "A manually written timeline initially placed the release before the outage."
+            },
+            {
+              "confidence": 0.99,
+              "key": "deploy_exists",
+              "phase_degrees": null,
+              "source": "release://checkout/1842",
+              "stance": 1,
+              "tags": [],
+              "text": "Release 1842 was deployed on the same date as the incident."
+            },
+            {
+              "confidence": 0.95,
+              "key": "error_signature_cache",
+              "phase_degrees": null,
+              "source": "trace://checkout/dominant-signature",
+              "stance": 1,
+              "tags": [],
+              "text": "The dominant trace signature is origin timeout following cache lookup miss."
+            },
+            {
+              "confidence": 0.91,
+              "key": "multi_region_symptom",
+              "phase_degrees": null,
+              "source": "telemetry://checkout/errors-by-region",
+              "stance": 1,
+              "tags": [],
+              "text": "Checkout errors appeared in every region within a 12-second window."
+            },
+            {
+              "confidence": 0.97,
+              "key": "origin_fanout",
+              "phase_degrees": null,
+              "source": "trace://origin/fanout",
+              "stance": 1,
+              "tags": [],
+              "text": "Origin request fan-out rose in the same second that cache hits collapsed."
+            },
+            {
+              "confidence": 0.98,
+              "key": "packet_loss_absent",
+              "phase_degrees": null,
+              "source": "telemetry://network/synthetic-probes",
+              "stance": -1,
+              "tags": [],
+              "text": "Synthetic probes across all regions show no correlated packet-loss event."
+            },
+            {
+              "confidence": 0.24,
+              "key": "packet_loss_rumor",
+              "phase_degrees": null,
+              "source": "report://network/operator-3",
+              "stance": 1,
+              "tags": [],
+              "text": "One regional operator reported a brief packet-loss alert."
+            },
+            {
+              "confidence": 0.98,
+              "key": "recovery_after_cache_flush",
+              "phase_degrees": null,
+              "source": "timeline://mitigation/cache-flush",
+              "stance": 1,
+              "tags": [],
+              "text": "Error rate returned to baseline 38 seconds after the cache namespace was flushed."
+            },
+            {
+              "confidence": 0.96,
+              "key": "request_spike",
+              "phase_degrees": null,
+              "source": "telemetry://edge/requests",
+              "stance": 1,
+              "tags": [],
+              "text": "Ingress telemetry shows request volume rose 4.8x beginning at 01:41:37 UTC."
+            }
+          ],
+          "metadata": {
+            "domain": "RAG-shaped incident investigation",
+            "expected_winner": "cache_stampede",
+            "note": "All evidence is synthetic and included only to demonstrate the algorithm."
+          },
+          "problem_id": "outage-2026-08-17",
+          "propositions": [
+            {
+              "depends_on": [],
+              "evidence": [
+                "cache_hit_collapse",
+                "origin_fanout",
+                "error_signature_cache"
+              ],
+              "key": "cache_miss_wave",
+              "metadata": {},
+              "statement": "A cache miss wave amplified origin load."
+            },
+            {
+              "depends_on": [
+                "traffic_spike",
+                "cache_miss_wave",
+                "database_healthy"
+              ],
+              "evidence": [
+                "cache_key_report",
+                "recovery_after_cache_flush"
+              ],
+              "key": "cache_timeline",
+              "metadata": {},
+              "statement": "The observed chronology is compatible with a cache-triggered outage."
+            },
+            {
+              "depends_on": [
+                "traffic_spike",
+                "database_primary_failed"
+              ],
+              "evidence": [],
+              "key": "database_failure_chain",
+              "metadata": {},
+              "statement": "Database failure explains the checkout errors."
+            },
+            {
+              "depends_on": [],
+              "evidence": [
+                "db_cpu_healthy",
+                "db_replication_healthy"
+              ],
+              "key": "database_healthy",
+              "metadata": {},
+              "statement": "The database remained operational during initial onset."
+            },
+            {
+              "depends_on": [],
+              "evidence": [
+                "db_cpu_healthy",
+                "db_replication_healthy"
+              ],
+              "key": "database_healthy_alias",
+              "metadata": {},
+              "statement": "The database remained operational during initial onset."
+            },
+            {
+              "depends_on": [],
+              "evidence": [
+                "db_failure_rumor",
+                "db_no_failover",
+                "db_connections_normal"
+              ],
+              "key": "database_primary_failed",
+              "metadata": {},
+              "statement": "The database primary failed at incident onset."
+            },
+            {
+              "depends_on": [
+                "deployment_present",
+                "deployment_preceded_outage",
+                "database_healthy_alias"
+              ],
+              "evidence": [],
+              "key": "deployment_failure_chain",
+              "metadata": {},
+              "statement": "The release chronology supports a deploy-regression explanation."
+            },
+            {
+              "depends_on": [],
+              "evidence": [
+                "deploy_before_weak",
+                "deploy_after_onset"
+              ],
+              "key": "deployment_preceded_outage",
+              "metadata": {},
+              "statement": "The release was deployed before incident onset."
+            },
+            {
+              "depends_on": [],
+              "evidence": [
+                "deploy_exists"
+              ],
+              "key": "deployment_present",
+              "metadata": {},
+              "statement": "A checkout release existed on the incident date."
+            },
+            {
+              "depends_on": [
+                "packet_loss_event"
+              ],
+              "evidence": [
+                "multi_region_symptom"
+              ],
+              "key": "network_failure_chain",
+              "metadata": {},
+              "statement": "A multi-region network partition explains the checkout errors."
+            },
+            {
+              "depends_on": [],
+              "evidence": [
+                "packet_loss_rumor",
+                "packet_loss_absent"
+              ],
+              "key": "packet_loss_event",
+              "metadata": {},
+              "statement": "A network packet-loss event caused the outage."
+            },
+            {
+              "depends_on": [],
+              "evidence": [
+                "request_spike"
+              ],
+              "key": "traffic_spike",
+              "metadata": {},
+              "statement": "A sudden traffic spike preceded the outage."
+            }
+          ],
+          "query": "Which hypothesis best explains the 01:42 UTC checkout outage?",
+          "schema": "qids-cam/problem/v1"
+        }
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:298452001aa56bf27db89166a238efcb38a429b71a92323a10686bd3a78ad7d7": {
+      "kind": "proposition",
+      "links": [
+        "sha256:e38ead1b9d4b5e1eac3e10bed9a151b62be3ae3681e6948a5d75518eb1a96d90"
+      ],
+      "payload": {
+        "dependencies": [],
+        "evaluation_schema": "qids-cam-evidence-v1",
+        "evidence": [
+          "sha256:e38ead1b9d4b5e1eac3e10bed9a151b62be3ae3681e6948a5d75518eb1a96d90"
+        ],
+        "metadata": {},
+        "statement": "A sudden traffic spike preceded the outage."
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:377135425ae396531da245af6ff131201a2433be4309af20d05632bba905a54f": {
+      "kind": "evidence",
+      "links": [],
+      "payload": {
+        "confidence": 0.91,
+        "phase_degrees": null,
+        "source": "telemetry://checkout/errors-by-region",
+        "stance": 1,
+        "tags": [],
+        "text": "Checkout errors appeared in every region within a 12-second window."
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:387edbb0673ca2a26a2c6d1ad807bb94f944d14d64fec576d7ff8879fa0afee5": {
+      "kind": "evidence",
+      "links": [],
+      "payload": {
+        "confidence": 0.31,
+        "phase_degrees": null,
+        "source": "chat://incident/early-rumor",
+        "stance": 1,
+        "tags": [],
+        "text": "An early chat message speculated that the database primary had failed."
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:3a8f266cdf40e9feb5fa177bf7cfbf52377ea403829321d1dd975d049fb6db9f": {
+      "kind": "resolved-states",
+      "links": [],
+      "payload": {
+        "propositions": {
+          "cache_miss_wave": {
+            "amplitude_imag": 0.0,
+            "amplitude_real": 2.91,
+            "cid": "sha256:0fd9159b1cfeedd95c4aff0a09a40a4ade84537dcd38e25c1cd4e77db96f24f6",
+            "coherence": 1.0,
+            "dependency_cids": [],
+            "key": "cache_miss_wave",
+            "local_score": 1.0,
+            "opposition": 0.0,
+            "reason": "CID memo reuse: residual support survives destructive evaluation",
+            "score": 1.0,
+            "status": "survives",
+            "support": 2.91
+          },
+          "cache_timeline": {
+            "amplitude_imag": 0.0,
+            "amplitude_real": 1.8,
+            "cid": "sha256:73defc1692e5629bba9b4826de35271658c4450b12f884b1ecb0141c1b032fb5",
+            "coherence": 1.0,
+            "dependency_cids": [
+              "sha256:298452001aa56bf27db89166a238efcb38a429b71a92323a10686bd3a78ad7d7",
+              "sha256:b07b0165233979cd83d21c3f43218cb5f939486ce016bffe52bed728f5649649",
+              "sha256:0fd9159b1cfeedd95c4aff0a09a40a4ade84537dcd38e25c1cd4e77db96f24f6"
+            ],
+            "key": "cache_timeline",
+            "local_score": 1.0,
+            "opposition": 0.0,
+            "reason": "residual support survives destructive evaluation",
+            "score": 1.0,
+            "status": "survives",
+            "support": 1.8
+          },
+          "database_failure_chain": {
+            "amplitude_imag": 0.0,
+            "amplitude_real": 0.0,
+            "cid": "sha256:51aa97ad9bf38fc7d010f356688b59685036ce8b4c5c7da20ce517a1b32760a5",
+            "coherence": 0.0,
+            "dependency_cids": [
+              "sha256:67212a803a207d3e95fdb914c1bc8351bbecf2128444422138922361e38a765e",
+              "sha256:298452001aa56bf27db89166a238efcb38a429b71a92323a10686bd3a78ad7d7"
+            ],
+            "key": "database_failure_chain",
+            "local_score": 0.0,
+            "opposition": 0.0,
+            "reason": "dependency destroyed: sha256:67212a803a207d3e95fdb914c1bc8351bbecf2128444422138922361e38a765e",
+            "score": -0.72197309417,
+            "status": "destroyed",
+            "support": 0.0
+          },
+          "database_healthy": {
+            "amplitude_imag": 0.0,
+            "amplitude_real": 1.9,
+            "cid": "sha256:b07b0165233979cd83d21c3f43218cb5f939486ce016bffe52bed728f5649649",
+            "coherence": 1.0,
+            "dependency_cids": [],
+            "key": "database_healthy",
+            "local_score": 1.0,
+            "opposition": 0.0,
+            "reason": "CID memo reuse: residual support survives destructive evaluation",
+            "score": 1.0,
+            "status": "survives",
+            "support": 1.9
+          },
+          "database_healthy_alias": {
+            "amplitude_imag": 0.0,
+            "amplitude_real": 1.9,
+            "cid": "sha256:b07b0165233979cd83d21c3f43218cb5f939486ce016bffe52bed728f5649649",
+            "coherence": 1.0,
+            "dependency_cids": [],
+            "key": "database_healthy_alias",
+            "local_score": 1.0,
+            "opposition": 0.0,
+            "reason": "CID memo reuse: residual support survives destructive evaluation",
+            "score": 1.0,
+            "status": "survives",
+            "support": 1.9
+          },
+          "database_primary_failed": {
+            "amplitude_imag": 0.0,
+            "amplitude_real": -1.61,
+            "cid": "sha256:67212a803a207d3e95fdb914c1bc8351bbecf2128444422138922361e38a765e",
+            "coherence": 0.72197309417,
+            "dependency_cids": [],
+            "key": "database_primary_failed",
+            "local_score": -0.72197309417,
+            "opposition": 1.92,
+            "reason": "destructive cancellation: local opposing amplitude dominates",
+            "score": -0.72197309417,
+            "status": "destroyed",
+            "support": 0.31
+          },
+          "deployment_failure_chain": {
+            "amplitude_imag": 0.0,
+            "amplitude_real": 0.0,
+            "cid": "sha256:5bd5fa7ccd3e199f346a881766e5c3cbb866482d1fd96dba898e4fc2dad89a62",
+            "coherence": 0.0,
+            "dependency_cids": [
+              "sha256:01966196d15a7804edac59649e78762d6ef4eb381a1e5d2c4df0c81123c1caf4",
+              "sha256:e5170a1d026d2e07e2fd63b3dd9a823760619024f756653a383fc87c75f8af32",
+              "sha256:b07b0165233979cd83d21c3f43218cb5f939486ce016bffe52bed728f5649649"
+            ],
+            "key": "deployment_failure_chain",
+            "local_score": 0.0,
+            "opposition": 0.0,
+            "reason": "dependency destroyed: sha256:01966196d15a7804edac59649e78762d6ef4eb381a1e5d2c4df0c81123c1caf4",
+            "score": -0.693617021277,
+            "status": "destroyed",
+            "support": 0.0
+          },
+          "deployment_preceded_outage": {
+            "amplitude_imag": 0.0,
+            "amplitude_real": -0.815,
+            "cid": "sha256:01966196d15a7804edac59649e78762d6ef4eb381a1e5d2c4df0c81123c1caf4",
+            "coherence": 0.693617021277,
+            "dependency_cids": [],
+            "key": "deployment_preceded_outage",
+            "local_score": -0.693617021277,
+            "opposition": 0.995,
+            "reason": "destructive cancellation: local opposing amplitude dominates",
+            "score": -0.693617021277,
+            "status": "destroyed",
+            "support": 0.18
+          },
+          "deployment_present": {
+            "amplitude_imag": 0.0,
+            "amplitude_real": 0.99,
+            "cid": "sha256:e5170a1d026d2e07e2fd63b3dd9a823760619024f756653a383fc87c75f8af32",
+            "coherence": 1.0,
+            "dependency_cids": [],
+            "key": "deployment_present",
+            "local_score": 1.0,
+            "opposition": 0.0,
+            "reason": "residual support survives destructive evaluation",
+            "score": 1.0,
+            "status": "survives",
+            "support": 0.99
+          },
+          "network_failure_chain": {
+            "amplitude_imag": 0.0,
+            "amplitude_real": 0.91,
+            "cid": "sha256:fe737440df39f975aa7dae1ab8525c46397cf0952c91482f19bb013c2d056e94",
+            "coherence": 1.0,
+            "dependency_cids": [
+              "sha256:cb98d36b67255cb74d6a1de0e8093b7601f5e2ab5b09cd2f1a40da691ca2379b"
+            ],
+            "key": "network_failure_chain",
+            "local_score": 1.0,
+            "opposition": 0.0,
+            "reason": "dependency destroyed: sha256:cb98d36b67255cb74d6a1de0e8093b7601f5e2ab5b09cd2f1a40da691ca2379b",
+            "score": -0.606557377049,
+            "status": "destroyed",
+            "support": 0.91
+          },
+          "packet_loss_event": {
+            "amplitude_imag": 0.0,
+            "amplitude_real": -0.74,
+            "cid": "sha256:cb98d36b67255cb74d6a1de0e8093b7601f5e2ab5b09cd2f1a40da691ca2379b",
+            "coherence": 0.606557377049,
+            "dependency_cids": [],
+            "key": "packet_loss_event",
+            "local_score": -0.606557377049,
+            "opposition": 0.98,
+            "reason": "destructive cancellation: local opposing amplitude dominates",
+            "score": -0.606557377049,
+            "status": "destroyed",
+            "support": 0.24
+          },
+          "traffic_spike": {
+            "amplitude_imag": 0.0,
+            "amplitude_real": 0.96,
+            "cid": "sha256:298452001aa56bf27db89166a238efcb38a429b71a92323a10686bd3a78ad7d7",
+            "coherence": 1.0,
+            "dependency_cids": [],
+            "key": "traffic_spike",
+            "local_score": 1.0,
+            "opposition": 0.0,
+            "reason": "CID memo reuse: residual support survives destructive evaluation",
+            "score": 1.0,
+            "status": "survives",
+            "support": 0.96
+          }
+        }
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:41c4b566b25df3d18d5d5d01fb13e640192e6b2186449d68d6c21cda49cda763": {
+      "kind": "candidate-result",
+      "links": [
+        "sha256:ddd192cefc5fe58613604e3b3a778ddce2233475db7367a0d5e15a728ee76746"
+      ],
+      "payload": {
+        "candidate": "sha256:ddd192cefc5fe58613604e3b3a778ddce2233475db7367a0d5e15a728ee76746",
+        "evaluated_requirements": [
+          "network_failure_chain"
+        ],
+        "reason": "requirement destroyed: network_failure_chain (sha256:fe737440df39f975aa7dae1ab8525c46397cf0952c91482f19bb013c2d056e94)",
+        "score": -1.0,
+        "skipped_requirements": [],
+        "status": "destroyed"
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:44fded5b147e3c39bccb90f8d350685f7c519109d46ca5dec4f5443d6e892598": {
+      "kind": "evidence",
+      "links": [],
+      "payload": {
+        "confidence": 0.98,
+        "phase_degrees": null,
+        "source": "telemetry://network/synthetic-probes",
+        "stance": -1,
+        "tags": [],
+        "text": "Synthetic probes across all regions show no correlated packet-loss event."
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:473631938704c25211e5c7fd80724ab747d92aadb9a28db89427e98cb2c10822": {
+      "kind": "evidence",
+      "links": [],
+      "payload": {
+        "confidence": 0.24,
+        "phase_degrees": null,
+        "source": "report://network/operator-3",
+        "stance": 1,
+        "tags": [],
+        "text": "One regional operator reported a brief packet-loss alert."
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:4ef6ed990aa6c4bde9af4471f3246dca4c654a190110aee3caeb3e87d956aa2e": {
+      "kind": "execution-trace",
+      "links": [],
+      "payload": {
+        "events": [
+          {
+            "cid": "sha256:d08db1042ef6e5e26ca2de94e081ea5e6f5bb20ffc8e18bb341f53171bc7a068",
+            "detail": "Cache-key regression triggered a cache stampede",
+            "event": "candidate",
+            "score": null,
+            "status": null,
+            "step": 1,
+            "subject": "cache_stampede"
+          },
+          {
+            "cid": "sha256:298452001aa56bf27db89166a238efcb38a429b71a92323a10686bd3a78ad7d7",
+            "detail": "A sudden traffic spike preceded the outage.",
+            "event": "expand",
+            "score": null,
+            "status": null,
+            "step": 2,
+            "subject": "traffic_spike"
+          },
+          {
+            "cid": "sha256:298452001aa56bf27db89166a238efcb38a429b71a92323a10686bd3a78ad7d7",
+            "detail": "residual support survives destructive evaluation",
+            "event": "resolve",
+            "score": 1.0,
+            "status": "survives",
+            "step": 3,
+            "subject": "traffic_spike"
+          },
+          {
+            "cid": "sha256:b07b0165233979cd83d21c3f43218cb5f939486ce016bffe52bed728f5649649",
+            "detail": "The database remained operational during initial onset.",
+            "event": "expand",
+            "score": null,
+            "status": null,
+            "step": 4,
+            "subject": "database_healthy"
+          },
+          {
+            "cid": "sha256:b07b0165233979cd83d21c3f43218cb5f939486ce016bffe52bed728f5649649",
+            "detail": "residual support survives destructive evaluation",
+            "event": "resolve",
+            "score": 1.0,
+            "status": "survives",
+            "step": 5,
+            "subject": "database_healthy"
+          },
+          {
+            "cid": "sha256:73defc1692e5629bba9b4826de35271658c4450b12f884b1ecb0141c1b032fb5",
+            "detail": "The observed chronology is compatible with a cache-triggered outage.",
+            "event": "expand",
+            "score": null,
+            "status": null,
+            "step": 6,
+            "subject": "cache_timeline"
+          },
+          {
+            "cid": "sha256:298452001aa56bf27db89166a238efcb38a429b71a92323a10686bd3a78ad7d7",
+            "detail": "CID memo reuse: residual support survives destructive evaluation",
+            "event": "memo-hit",
+            "score": 1.0,
+            "status": "survives",
+            "step": 7,
+            "subject": "traffic_spike"
+          },
+          {
+            "cid": "sha256:b07b0165233979cd83d21c3f43218cb5f939486ce016bffe52bed728f5649649",
+            "detail": "CID memo reuse: residual support survives destructive evaluation",
+            "event": "memo-hit",
+            "score": 1.0,
+            "status": "survives",
+            "step": 8,
+            "subject": "database_healthy"
+          },
+          {
+            "cid": "sha256:0fd9159b1cfeedd95c4aff0a09a40a4ade84537dcd38e25c1cd4e77db96f24f6",
+            "detail": "A cache miss wave amplified origin load.",
+            "event": "expand",
+            "score": null,
+            "status": null,
+            "step": 9,
+            "subject": "cache_miss_wave"
+          },
+          {
+            "cid": "sha256:0fd9159b1cfeedd95c4aff0a09a40a4ade84537dcd38e25c1cd4e77db96f24f6",
+            "detail": "residual support survives destructive evaluation",
+            "event": "resolve",
+            "score": 1.0,
+            "status": "survives",
+            "step": 10,
+            "subject": "cache_miss_wave"
+          },
+          {
+            "cid": "sha256:73defc1692e5629bba9b4826de35271658c4450b12f884b1ecb0141c1b032fb5",
+            "detail": "residual support survives destructive evaluation",
+            "event": "resolve",
+            "score": 1.0,
+            "status": "survives",
+            "step": 11,
+            "subject": "cache_timeline"
+          },
+          {
+            "cid": "sha256:0fd9159b1cfeedd95c4aff0a09a40a4ade84537dcd38e25c1cd4e77db96f24f6",
+            "detail": "CID memo reuse: residual support survives destructive evaluation",
+            "event": "memo-hit",
+            "score": 1.0,
+            "status": "survives",
+            "step": 12,
+            "subject": "cache_miss_wave"
+          },
+          {
+            "cid": "sha256:d08db1042ef6e5e26ca2de94e081ea5e6f5bb20ffc8e18bb341f53171bc7a068",
+            "detail": "all required propositions survived",
+            "event": "candidate-resolved",
+            "score": 1.0,
+            "status": "survives",
+            "step": 13,
+            "subject": "cache_stampede"
+          },
+          {
+            "cid": "sha256:56814c46eebed89d25e927dcfa8edd890567c6717d87bca3309a01bcec742f4f",
+            "detail": "Database primary failure",
+            "event": "candidate",
+            "score": null,
+            "status": null,
+            "step": 14,
+            "subject": "database_failure"
+          },
+          {
+            "cid": "sha256:51aa97ad9bf38fc7d010f356688b59685036ce8b4c5c7da20ce517a1b32760a5",
+            "detail": "Database failure explains the checkout errors.",
+            "event": "expand",
+            "score": null,
+            "status": null,
+            "step": 15,
+            "subject": "database_failure_chain"
+          },
+          {
+            "cid": "sha256:67212a803a207d3e95fdb914c1bc8351bbecf2128444422138922361e38a765e",
+            "detail": "The database primary failed at incident onset.",
+            "event": "expand",
+            "score": null,
+            "status": null,
+            "step": 16,
+            "subject": "database_primary_failed"
+          },
+          {
+            "cid": "sha256:67212a803a207d3e95fdb914c1bc8351bbecf2128444422138922361e38a765e",
+            "detail": "destructive cancellation: local opposing amplitude dominates",
+            "event": "destroy",
+            "score": -0.72197309,
+            "status": "destroyed",
+            "step": 17,
+            "subject": "database_primary_failed"
+          },
+          {
+            "cid": "sha256:298452001aa56bf27db89166a238efcb38a429b71a92323a10686bd3a78ad7d7",
+            "detail": "CID memo reuse: residual support survives destructive evaluation",
+            "event": "memo-hit",
+            "score": 1.0,
+            "status": "survives",
+            "step": 18,
+            "subject": "traffic_spike"
+          },
+          {
+            "cid": "sha256:51aa97ad9bf38fc7d010f356688b59685036ce8b4c5c7da20ce517a1b32760a5",
+            "detail": "dependency destroyed: sha256:67212a803a207d3e95fdb914c1bc8351bbecf2128444422138922361e38a765e",
+            "event": "destroy",
+            "score": -0.72197309,
+            "status": "destroyed",
+            "step": 19,
+            "subject": "database_failure_chain"
+          },
+          {
+            "cid": "sha256:56814c46eebed89d25e927dcfa8edd890567c6717d87bca3309a01bcec742f4f",
+            "detail": "requirement destroyed: database_failure_chain (sha256:51aa97ad9bf38fc7d010f356688b59685036ce8b4c5c7da20ce517a1b32760a5)",
+            "event": "candidate-destroyed",
+            "score": -1.0,
+            "status": "destroyed",
+            "step": 20,
+            "subject": "database_failure"
+          },
+          {
+            "cid": "sha256:ddd192cefc5fe58613604e3b3a778ddce2233475db7367a0d5e15a728ee76746",
+            "detail": "Multi-region network partition",
+            "event": "candidate",
+            "score": null,
+            "status": null,
+            "step": 21,
+            "subject": "network_partition"
+          },
+          {
+            "cid": "sha256:fe737440df39f975aa7dae1ab8525c46397cf0952c91482f19bb013c2d056e94",
+            "detail": "A multi-region network partition explains the checkout errors.",
+            "event": "expand",
+            "score": null,
+            "status": null,
+            "step": 22,
+            "subject": "network_failure_chain"
+          },
+          {
+            "cid": "sha256:cb98d36b67255cb74d6a1de0e8093b7601f5e2ab5b09cd2f1a40da691ca2379b",
+            "detail": "A network packet-loss event caused the outage.",
+            "event": "expand",
+            "score": null,
+            "status": null,
+            "step": 23,
+            "subject": "packet_loss_event"
+          },
+          {
+            "cid": "sha256:cb98d36b67255cb74d6a1de0e8093b7601f5e2ab5b09cd2f1a40da691ca2379b",
+            "detail": "destructive cancellation: local opposing amplitude dominates",
+            "event": "destroy",
+            "score": -0.60655738,
+            "status": "destroyed",
+            "step": 24,
+            "subject": "packet_loss_event"
+          },
+          {
+            "cid": "sha256:fe737440df39f975aa7dae1ab8525c46397cf0952c91482f19bb013c2d056e94",
+            "detail": "dependency destroyed: sha256:cb98d36b67255cb74d6a1de0e8093b7601f5e2ab5b09cd2f1a40da691ca2379b",
+            "event": "destroy",
+            "score": -0.60655738,
+            "status": "destroyed",
+            "step": 25,
+            "subject": "network_failure_chain"
+          },
+          {
+            "cid": "sha256:ddd192cefc5fe58613604e3b3a778ddce2233475db7367a0d5e15a728ee76746",
+            "detail": "requirement destroyed: network_failure_chain (sha256:fe737440df39f975aa7dae1ab8525c46397cf0952c91482f19bb013c2d056e94)",
+            "event": "candidate-destroyed",
+            "score": -1.0,
+            "status": "destroyed",
+            "step": 26,
+            "subject": "network_partition"
+          },
+          {
+            "cid": "sha256:7796a8ba26e85e8f184aeb49ef203257c7c3bd2daac70c19d03ff104a4521dd8",
+            "detail": "A newly deployed application regression",
+            "event": "candidate",
+            "score": null,
+            "status": null,
+            "step": 27,
+            "subject": "bad_deploy"
+          },
+          {
+            "cid": "sha256:5bd5fa7ccd3e199f346a881766e5c3cbb866482d1fd96dba898e4fc2dad89a62",
+            "detail": "The release chronology supports a deploy-regression explanation.",
+            "event": "expand",
+            "score": null,
+            "status": null,
+            "step": 28,
+            "subject": "deployment_failure_chain"
+          },
+          {
+            "cid": "sha256:01966196d15a7804edac59649e78762d6ef4eb381a1e5d2c4df0c81123c1caf4",
+            "detail": "The release was deployed before incident onset.",
+            "event": "expand",
+            "score": null,
+            "status": null,
+            "step": 29,
+            "subject": "deployment_preceded_outage"
+          },
+          {
+            "cid": "sha256:01966196d15a7804edac59649e78762d6ef4eb381a1e5d2c4df0c81123c1caf4",
+            "detail": "destructive cancellation: local opposing amplitude dominates",
+            "event": "destroy",
+            "score": -0.69361702,
+            "status": "destroyed",
+            "step": 30,
+            "subject": "deployment_preceded_outage"
+          },
+          {
+            "cid": "sha256:e5170a1d026d2e07e2fd63b3dd9a823760619024f756653a383fc87c75f8af32",
+            "detail": "A checkout release existed on the incident date.",
+            "event": "expand",
+            "score": null,
+            "status": null,
+            "step": 31,
+            "subject": "deployment_present"
+          },
+          {
+            "cid": "sha256:e5170a1d026d2e07e2fd63b3dd9a823760619024f756653a383fc87c75f8af32",
+            "detail": "residual support survives destructive evaluation",
+            "event": "resolve",
+            "score": 1.0,
+            "status": "survives",
+            "step": 32,
+            "subject": "deployment_present"
+          },
+          {
+            "cid": "sha256:b07b0165233979cd83d21c3f43218cb5f939486ce016bffe52bed728f5649649",
+            "detail": "CID memo reuse: residual support survives destructive evaluation",
+            "event": "memo-hit",
+            "score": 1.0,
+            "status": "survives",
+            "step": 33,
+            "subject": "database_healthy_alias"
+          },
+          {
+            "cid": "sha256:5bd5fa7ccd3e199f346a881766e5c3cbb866482d1fd96dba898e4fc2dad89a62",
+            "detail": "dependency destroyed: sha256:01966196d15a7804edac59649e78762d6ef4eb381a1e5d2c4df0c81123c1caf4",
+            "event": "destroy",
+            "score": -0.69361702,
+            "status": "destroyed",
+            "step": 34,
+            "subject": "deployment_failure_chain"
+          },
+          {
+            "cid": "sha256:7796a8ba26e85e8f184aeb49ef203257c7c3bd2daac70c19d03ff104a4521dd8",
+            "detail": "requirement destroyed: deployment_failure_chain (sha256:5bd5fa7ccd3e199f346a881766e5c3cbb866482d1fd96dba898e4fc2dad89a62)",
+            "event": "candidate-destroyed",
+            "score": -1.0,
+            "status": "destroyed",
+            "step": 35,
+            "subject": "bad_deploy"
+          }
+        ]
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:51aa97ad9bf38fc7d010f356688b59685036ce8b4c5c7da20ce517a1b32760a5": {
+      "kind": "proposition",
+      "links": [
+        "sha256:298452001aa56bf27db89166a238efcb38a429b71a92323a10686bd3a78ad7d7",
+        "sha256:67212a803a207d3e95fdb914c1bc8351bbecf2128444422138922361e38a765e"
+      ],
+      "payload": {
+        "dependencies": [
+          "sha256:298452001aa56bf27db89166a238efcb38a429b71a92323a10686bd3a78ad7d7",
+          "sha256:67212a803a207d3e95fdb914c1bc8351bbecf2128444422138922361e38a765e"
+        ],
+        "evaluation_schema": "qids-cam-evidence-v1",
+        "evidence": [],
+        "metadata": {},
+        "statement": "Database failure explains the checkout errors."
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:56814c46eebed89d25e927dcfa8edd890567c6717d87bca3309a01bcec742f4f": {
+      "kind": "candidate",
+      "links": [
+        "sha256:298452001aa56bf27db89166a238efcb38a429b71a92323a10686bd3a78ad7d7",
+        "sha256:51aa97ad9bf38fc7d010f356688b59685036ce8b4c5c7da20ce517a1b32760a5"
+      ],
+      "payload": {
+        "label": "Database primary failure",
+        "prior": 0.0,
+        "requirements": [
+          "sha256:298452001aa56bf27db89166a238efcb38a429b71a92323a10686bd3a78ad7d7",
+          "sha256:51aa97ad9bf38fc7d010f356688b59685036ce8b4c5c7da20ce517a1b32760a5"
+        ]
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:5bc862aaeae8f991c1ff8eee7f65ef41091abcbcfb545bc87fa558fdfbd1a0c8": {
+      "kind": "evidence",
+      "links": [],
+      "payload": {
+        "confidence": 0.18,
+        "phase_degrees": null,
+        "source": "notes://incident/timeline-v1",
+        "stance": 1,
+        "tags": [],
+        "text": "A manually written timeline initially placed the release before the outage."
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:5bd5fa7ccd3e199f346a881766e5c3cbb866482d1fd96dba898e4fc2dad89a62": {
+      "kind": "proposition",
+      "links": [
+        "sha256:01966196d15a7804edac59649e78762d6ef4eb381a1e5d2c4df0c81123c1caf4",
+        "sha256:b07b0165233979cd83d21c3f43218cb5f939486ce016bffe52bed728f5649649",
+        "sha256:e5170a1d026d2e07e2fd63b3dd9a823760619024f756653a383fc87c75f8af32"
+      ],
+      "payload": {
+        "dependencies": [
+          "sha256:01966196d15a7804edac59649e78762d6ef4eb381a1e5d2c4df0c81123c1caf4",
+          "sha256:b07b0165233979cd83d21c3f43218cb5f939486ce016bffe52bed728f5649649",
+          "sha256:e5170a1d026d2e07e2fd63b3dd9a823760619024f756653a383fc87c75f8af32"
+        ],
+        "evaluation_schema": "qids-cam-evidence-v1",
+        "evidence": [],
+        "metadata": {},
+        "statement": "The release chronology supports a deploy-regression explanation."
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:61dd23bfe6c84a72b9b224bf83e7381e97f33e0de72d424389d3a07c710796d2": {
+      "kind": "evidence",
+      "links": [],
+      "payload": {
+        "confidence": 0.99,
+        "phase_degrees": null,
+        "source": "telemetry://cache/hit-ratio",
+        "stance": 1,
+        "tags": [],
+        "text": "Cache hit ratio fell from 93% to 11% during the first minute of the incident."
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:67212a803a207d3e95fdb914c1bc8351bbecf2128444422138922361e38a765e": {
+      "kind": "proposition",
+      "links": [
+        "sha256:387edbb0673ca2a26a2c6d1ad807bb94f944d14d64fec576d7ff8879fa0afee5",
+        "sha256:c27421d921f0689848827d74e3efd27bf03b1f6ff95241389cffa416a26ee569",
+        "sha256:eb4c9fdb606ca4c746d33f4e9023736e9c9f518e02acf2f4d91a4031927699c7"
+      ],
+      "payload": {
+        "dependencies": [],
+        "evaluation_schema": "qids-cam-evidence-v1",
+        "evidence": [
+          "sha256:387edbb0673ca2a26a2c6d1ad807bb94f944d14d64fec576d7ff8879fa0afee5",
+          "sha256:c27421d921f0689848827d74e3efd27bf03b1f6ff95241389cffa416a26ee569",
+          "sha256:eb4c9fdb606ca4c746d33f4e9023736e9c9f518e02acf2f4d91a4031927699c7"
+        ],
+        "metadata": {},
+        "statement": "The database primary failed at incident onset."
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:73defc1692e5629bba9b4826de35271658c4450b12f884b1ecb0141c1b032fb5": {
+      "kind": "proposition",
+      "links": [
+        "sha256:0fd9159b1cfeedd95c4aff0a09a40a4ade84537dcd38e25c1cd4e77db96f24f6",
+        "sha256:298452001aa56bf27db89166a238efcb38a429b71a92323a10686bd3a78ad7d7",
+        "sha256:b07b0165233979cd83d21c3f43218cb5f939486ce016bffe52bed728f5649649",
+        "sha256:ddb8d4c94a765c2dd12fe7b59063a38b4e813899ce2138e2bfc36104af2e0a33",
+        "sha256:f9f1961d8c44846877d5697a05f0ac187ef4170f3bcce9baa0bbf4fe88c0c655"
+      ],
+      "payload": {
+        "dependencies": [
+          "sha256:0fd9159b1cfeedd95c4aff0a09a40a4ade84537dcd38e25c1cd4e77db96f24f6",
+          "sha256:298452001aa56bf27db89166a238efcb38a429b71a92323a10686bd3a78ad7d7",
+          "sha256:b07b0165233979cd83d21c3f43218cb5f939486ce016bffe52bed728f5649649"
+        ],
+        "evaluation_schema": "qids-cam-evidence-v1",
+        "evidence": [
+          "sha256:ddb8d4c94a765c2dd12fe7b59063a38b4e813899ce2138e2bfc36104af2e0a33",
+          "sha256:f9f1961d8c44846877d5697a05f0ac187ef4170f3bcce9baa0bbf4fe88c0c655"
+        ],
+        "metadata": {},
+        "statement": "The observed chronology is compatible with a cache-triggered outage."
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:7796a8ba26e85e8f184aeb49ef203257c7c3bd2daac70c19d03ff104a4521dd8": {
+      "kind": "candidate",
+      "links": [
+        "sha256:5bd5fa7ccd3e199f346a881766e5c3cbb866482d1fd96dba898e4fc2dad89a62",
+        "sha256:b07b0165233979cd83d21c3f43218cb5f939486ce016bffe52bed728f5649649",
+        "sha256:e5170a1d026d2e07e2fd63b3dd9a823760619024f756653a383fc87c75f8af32"
+      ],
+      "payload": {
+        "label": "A newly deployed application regression",
+        "prior": 0.0,
+        "requirements": [
+          "sha256:5bd5fa7ccd3e199f346a881766e5c3cbb866482d1fd96dba898e4fc2dad89a62",
+          "sha256:b07b0165233979cd83d21c3f43218cb5f939486ce016bffe52bed728f5649649",
+          "sha256:e5170a1d026d2e07e2fd63b3dd9a823760619024f756653a383fc87c75f8af32"
+        ]
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:7f0df2d3a4864c6982b15678ebff3217253812b0c278ce24708add63d2218362": {
+      "kind": "evidence",
+      "links": [],
+      "payload": {
+        "confidence": 0.99,
+        "phase_degrees": null,
+        "source": "release://checkout/1842",
+        "stance": 1,
+        "tags": [],
+        "text": "Release 1842 was deployed on the same date as the incident."
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:7fc296615ae9a893c275cdafc8159a516491ae75bcb52f02303188086d2d25b2": {
+      "kind": "evidence",
+      "links": [],
+      "payload": {
+        "confidence": 0.97,
+        "phase_degrees": null,
+        "source": "trace://origin/fanout",
+        "stance": 1,
+        "tags": [],
+        "text": "Origin request fan-out rose in the same second that cache hits collapsed."
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:92245fdfb17f4d9c0a48e19d51e5a01c185bab453a0bb0251c95102e64b26ddb": {
+      "kind": "evidence",
+      "links": [],
+      "payload": {
+        "confidence": 0.94,
+        "phase_degrees": null,
+        "source": "telemetry://db-primary/cpu",
+        "stance": 1,
+        "tags": [],
+        "text": "Database primary CPU stayed below 46% throughout the first six minutes."
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:b07b0165233979cd83d21c3f43218cb5f939486ce016bffe52bed728f5649649": {
+      "kind": "proposition",
+      "links": [
+        "sha256:92245fdfb17f4d9c0a48e19d51e5a01c185bab453a0bb0251c95102e64b26ddb",
+        "sha256:ecf6242f5a75282820e21788cad71b41c74b724c8f98b1987047a26c15f4492a"
+      ],
+      "payload": {
+        "dependencies": [],
+        "evaluation_schema": "qids-cam-evidence-v1",
+        "evidence": [
+          "sha256:92245fdfb17f4d9c0a48e19d51e5a01c185bab453a0bb0251c95102e64b26ddb",
+          "sha256:ecf6242f5a75282820e21788cad71b41c74b724c8f98b1987047a26c15f4492a"
+        ],
+        "metadata": {},
+        "statement": "The database remained operational during initial onset."
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:b130062faae2fb86a0222573bfcaa94d388b4458db003f44673aab0f9346c9f8": {
+      "kind": "candidate-result",
+      "links": [
+        "sha256:d08db1042ef6e5e26ca2de94e081ea5e6f5bb20ffc8e18bb341f53171bc7a068"
+      ],
+      "payload": {
+        "candidate": "sha256:d08db1042ef6e5e26ca2de94e081ea5e6f5bb20ffc8e18bb341f53171bc7a068",
+        "evaluated_requirements": [
+          "traffic_spike",
+          "database_healthy",
+          "cache_timeline",
+          "cache_miss_wave"
+        ],
+        "reason": "all required propositions survived",
+        "score": 1.0,
+        "skipped_requirements": [],
+        "status": "survives"
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:b1974ac7f5939d0dc2dc9beae0db82ecda71a360503bd5c744ca4c97bfe8bba8": {
+      "kind": "problem",
+      "links": [
+        "sha256:56814c46eebed89d25e927dcfa8edd890567c6717d87bca3309a01bcec742f4f",
+        "sha256:7796a8ba26e85e8f184aeb49ef203257c7c3bd2daac70c19d03ff104a4521dd8",
+        "sha256:d08db1042ef6e5e26ca2de94e081ea5e6f5bb20ffc8e18bb341f53171bc7a068",
+        "sha256:ddd192cefc5fe58613604e3b3a778ddce2233475db7367a0d5e15a728ee76746"
+      ],
+      "payload": {
+        "candidates": [
+          "sha256:d08db1042ef6e5e26ca2de94e081ea5e6f5bb20ffc8e18bb341f53171bc7a068",
+          "sha256:56814c46eebed89d25e927dcfa8edd890567c6717d87bca3309a01bcec742f4f",
+          "sha256:ddd192cefc5fe58613604e3b3a778ddce2233475db7367a0d5e15a728ee76746",
+          "sha256:7796a8ba26e85e8f184aeb49ef203257c7c3bd2daac70c19d03ff104a4521dd8"
+        ],
+        "metadata": {
+          "domain": "RAG-shaped incident investigation",
+          "expected_winner": "cache_stampede",
+          "note": "All evidence is synthetic and included only to demonstrate the algorithm."
+        },
+        "problem_id": "outage-2026-08-17",
+        "query": "Which hypothesis best explains the 01:42 UTC checkout outage?"
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:bb11985a71a78678cab4e28d5de3159fa36b5f0386b7ea5c4d87121670ea26eb": {
+      "kind": "solve-proof",
+      "links": [
+        "sha256:17657d406b41d9d63af9427aa673d79aa686be267f1deba7e80b556ea6b6e088",
+        "sha256:3a8f266cdf40e9feb5fa177bf7cfbf52377ea403829321d1dd975d049fb6db9f",
+        "sha256:41c4b566b25df3d18d5d5d01fb13e640192e6b2186449d68d6c21cda49cda763",
+        "sha256:4ef6ed990aa6c4bde9af4471f3246dca4c654a190110aee3caeb3e87d956aa2e",
+        "sha256:b130062faae2fb86a0222573bfcaa94d388b4458db003f44673aab0f9346c9f8",
+        "sha256:b1974ac7f5939d0dc2dc9beae0db82ecda71a360503bd5c744ca4c97bfe8bba8",
+        "sha256:c9564f78ef25cb0887cb8707463162fff6df02d2f88cc74782e0ea6d80432fb8",
+        "sha256:d82741993c60b2c0ae7a12da4efbee0cc6e96747e001d84988e90c60696fce1e",
+        "sha256:f43bf8d3d74e3a8dcd8a8ac14c6284cf4e1b1f232976863b1ed0d89890555d4c"
+      ],
+      "payload": {
+        "algorithm_version": "0.2.0",
+        "candidates": [
+          {
+            "cid": "sha256:d08db1042ef6e5e26ca2de94e081ea5e6f5bb20ffc8e18bb341f53171bc7a068",
+            "evaluated_requirements": [
+              "traffic_spike",
+              "database_healthy",
+              "cache_timeline",
+              "cache_miss_wave"
+            ],
+            "key": "cache_stampede",
+            "label": "Cache-key regression triggered a cache stampede",
+            "reason": "all required propositions survived",
+            "score": 1.0,
+            "skipped_requirements": [],
+            "status": "survives"
+          },
+          {
+            "cid": "sha256:56814c46eebed89d25e927dcfa8edd890567c6717d87bca3309a01bcec742f4f",
+            "evaluated_requirements": [
+              "database_failure_chain"
+            ],
+            "key": "database_failure",
+            "label": "Database primary failure",
+            "reason": "requirement destroyed: database_failure_chain (sha256:51aa97ad9bf38fc7d010f356688b59685036ce8b4c5c7da20ce517a1b32760a5)",
+            "score": -1.0,
+            "skipped_requirements": [
+              "traffic_spike"
+            ],
+            "status": "destroyed"
+          },
+          {
+            "cid": "sha256:ddd192cefc5fe58613604e3b3a778ddce2233475db7367a0d5e15a728ee76746",
+            "evaluated_requirements": [
+              "network_failure_chain"
+            ],
+            "key": "network_partition",
+            "label": "Multi-region network partition",
+            "reason": "requirement destroyed: network_failure_chain (sha256:fe737440df39f975aa7dae1ab8525c46397cf0952c91482f19bb013c2d056e94)",
+            "score": -1.0,
+            "skipped_requirements": [],
+            "status": "destroyed"
+          },
+          {
+            "cid": "sha256:7796a8ba26e85e8f184aeb49ef203257c7c3bd2daac70c19d03ff104a4521dd8",
+            "evaluated_requirements": [
+              "deployment_failure_chain"
+            ],
+            "key": "bad_deploy",
+            "label": "A newly deployed application regression",
+            "reason": "requirement destroyed: deployment_failure_chain (sha256:5bd5fa7ccd3e199f346a881766e5c3cbb866482d1fd96dba898e4fc2dad89a62)",
+            "score": -1.0,
+            "skipped_requirements": [
+              "deployment_present",
+              "database_healthy_alias"
+            ],
+            "status": "destroyed"
+          }
+        ],
+        "context": "sha256:bf1ad806e6dea6263bc5cd86a78d7889646da9b0ec437ba666b8190a0a2e8aab",
+        "context_node": "sha256:c9564f78ef25cb0887cb8707463162fff6df02d2f88cc74782e0ea6d80432fb8",
+        "input": "sha256:17657d406b41d9d63af9427aa673d79aa686be267f1deba7e80b556ea6b6e088",
+        "metrics": {
+          "avoided_requirements": 3,
+          "candidate_evaluations": 4,
+          "destroyed_candidates": 3,
+          "destroyed_propositions": 6,
+          "early_prunes": 3,
+          "evidence_reads": 17,
+          "learned_nogoods": 6,
+          "memo_hits": 5,
+          "nogood_hits": 0,
+          "proposition_expansions": 11,
+          "unique_merkle_nodes": 42
+        },
+        "problem_root": "sha256:b1974ac7f5939d0dc2dc9beae0db82ecda71a360503bd5c744ca4c97bfe8bba8",
+        "proof_schema": "qids-cam/solve-proof/v2",
+        "solver": {
+          "content_addressed_memory": true,
+          "dependency_weight": 0.65,
+          "destroy_below": -0.2,
+          "destructive_pruning": true,
+          "fail_first": true,
+          "learn_nogoods": true,
+          "name": "qids-cam",
+          "phase_aggregation": true,
+          "uncertain_band": 0.08
+        },
+        "states": "sha256:3a8f266cdf40e9feb5fa177bf7cfbf52377ea403829321d1dd975d049fb6db9f",
+        "trace": "sha256:4ef6ed990aa6c4bde9af4471f3246dca4c654a190110aee3caeb3e87d956aa2e",
+        "winner": "cache_stampede"
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:c27421d921f0689848827d74e3efd27bf03b1f6ff95241389cffa416a26ee569": {
+      "kind": "evidence",
+      "links": [],
+      "payload": {
+        "confidence": 0.93,
+        "phase_degrees": null,
+        "source": "telemetry://db/connections",
+        "stance": -1,
+        "tags": [],
+        "text": "Connection count and rejected connections remained within the normal band."
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:c9564f78ef25cb0887cb8707463162fff6df02d2f88cc74782e0ea6d80432fb8": {
+      "kind": "constraint-context",
+      "links": [],
+      "payload": {
+        "constraints": {},
+        "context_cid": "sha256:bf1ad806e6dea6263bc5cd86a78d7889646da9b0ec437ba666b8190a0a2e8aab"
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:cb98d36b67255cb74d6a1de0e8093b7601f5e2ab5b09cd2f1a40da691ca2379b": {
+      "kind": "proposition",
+      "links": [
+        "sha256:44fded5b147e3c39bccb90f8d350685f7c519109d46ca5dec4f5443d6e892598",
+        "sha256:473631938704c25211e5c7fd80724ab747d92aadb9a28db89427e98cb2c10822"
+      ],
+      "payload": {
+        "dependencies": [],
+        "evaluation_schema": "qids-cam-evidence-v1",
+        "evidence": [
+          "sha256:44fded5b147e3c39bccb90f8d350685f7c519109d46ca5dec4f5443d6e892598",
+          "sha256:473631938704c25211e5c7fd80724ab747d92aadb9a28db89427e98cb2c10822"
+        ],
+        "metadata": {},
+        "statement": "A network packet-loss event caused the outage."
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:d08db1042ef6e5e26ca2de94e081ea5e6f5bb20ffc8e18bb341f53171bc7a068": {
+      "kind": "candidate",
+      "links": [
+        "sha256:0fd9159b1cfeedd95c4aff0a09a40a4ade84537dcd38e25c1cd4e77db96f24f6",
+        "sha256:298452001aa56bf27db89166a238efcb38a429b71a92323a10686bd3a78ad7d7",
+        "sha256:73defc1692e5629bba9b4826de35271658c4450b12f884b1ecb0141c1b032fb5",
+        "sha256:b07b0165233979cd83d21c3f43218cb5f939486ce016bffe52bed728f5649649"
+      ],
+      "payload": {
+        "label": "Cache-key regression triggered a cache stampede",
+        "prior": 0.03,
+        "requirements": [
+          "sha256:0fd9159b1cfeedd95c4aff0a09a40a4ade84537dcd38e25c1cd4e77db96f24f6",
+          "sha256:298452001aa56bf27db89166a238efcb38a429b71a92323a10686bd3a78ad7d7",
+          "sha256:73defc1692e5629bba9b4826de35271658c4450b12f884b1ecb0141c1b032fb5",
+          "sha256:b07b0165233979cd83d21c3f43218cb5f939486ce016bffe52bed728f5649649"
+        ]
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:d82741993c60b2c0ae7a12da4efbee0cc6e96747e001d84988e90c60696fce1e": {
+      "kind": "candidate-result",
+      "links": [
+        "sha256:7796a8ba26e85e8f184aeb49ef203257c7c3bd2daac70c19d03ff104a4521dd8"
+      ],
+      "payload": {
+        "candidate": "sha256:7796a8ba26e85e8f184aeb49ef203257c7c3bd2daac70c19d03ff104a4521dd8",
+        "evaluated_requirements": [
+          "deployment_failure_chain"
+        ],
+        "reason": "requirement destroyed: deployment_failure_chain (sha256:5bd5fa7ccd3e199f346a881766e5c3cbb866482d1fd96dba898e4fc2dad89a62)",
+        "score": -1.0,
+        "skipped_requirements": [
+          "deployment_present",
+          "database_healthy_alias"
+        ],
+        "status": "destroyed"
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:ddb8d4c94a765c2dd12fe7b59063a38b4e813899ce2138e2bfc36104af2e0a33": {
+      "kind": "evidence",
+      "links": [],
+      "payload": {
+        "confidence": 0.82,
+        "phase_degrees": null,
+        "source": "release://checkout/1842",
+        "stance": 1,
+        "tags": [],
+        "text": "A deploy note mentions a cache-key normalization change in the previous release."
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:ddd192cefc5fe58613604e3b3a778ddce2233475db7367a0d5e15a728ee76746": {
+      "kind": "candidate",
+      "links": [
+        "sha256:fe737440df39f975aa7dae1ab8525c46397cf0952c91482f19bb013c2d056e94"
+      ],
+      "payload": {
+        "label": "Multi-region network partition",
+        "prior": 0.0,
+        "requirements": [
+          "sha256:fe737440df39f975aa7dae1ab8525c46397cf0952c91482f19bb013c2d056e94"
+        ]
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:e38ead1b9d4b5e1eac3e10bed9a151b62be3ae3681e6948a5d75518eb1a96d90": {
+      "kind": "evidence",
+      "links": [],
+      "payload": {
+        "confidence": 0.96,
+        "phase_degrees": null,
+        "source": "telemetry://edge/requests",
+        "stance": 1,
+        "tags": [],
+        "text": "Ingress telemetry shows request volume rose 4.8x beginning at 01:41:37 UTC."
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:e5170a1d026d2e07e2fd63b3dd9a823760619024f756653a383fc87c75f8af32": {
+      "kind": "proposition",
+      "links": [
+        "sha256:7f0df2d3a4864c6982b15678ebff3217253812b0c278ce24708add63d2218362"
+      ],
+      "payload": {
+        "dependencies": [],
+        "evaluation_schema": "qids-cam-evidence-v1",
+        "evidence": [
+          "sha256:7f0df2d3a4864c6982b15678ebff3217253812b0c278ce24708add63d2218362"
+        ],
+        "metadata": {},
+        "statement": "A checkout release existed on the incident date."
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:eb4c9fdb606ca4c746d33f4e9023736e9c9f518e02acf2f4d91a4031927699c7": {
+      "kind": "evidence",
+      "links": [],
+      "payload": {
+        "confidence": 0.99,
+        "phase_degrees": null,
+        "source": "control://db/failover-log",
+        "stance": -1,
+        "tags": [],
+        "text": "The database control plane records no primary loss or failover event."
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:ecf6242f5a75282820e21788cad71b41c74b724c8f98b1987047a26c15f4492a": {
+      "kind": "evidence",
+      "links": [],
+      "payload": {
+        "confidence": 0.96,
+        "phase_degrees": null,
+        "source": "telemetry://db/replication",
+        "stance": 1,
+        "tags": [],
+        "text": "Replication lag remained below 18 ms and no failover was initiated."
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:f43bf8d3d74e3a8dcd8a8ac14c6284cf4e1b1f232976863b1ed0d89890555d4c": {
+      "kind": "candidate-result",
+      "links": [
+        "sha256:56814c46eebed89d25e927dcfa8edd890567c6717d87bca3309a01bcec742f4f"
+      ],
+      "payload": {
+        "candidate": "sha256:56814c46eebed89d25e927dcfa8edd890567c6717d87bca3309a01bcec742f4f",
+        "evaluated_requirements": [
+          "database_failure_chain"
+        ],
+        "reason": "requirement destroyed: database_failure_chain (sha256:51aa97ad9bf38fc7d010f356688b59685036ce8b4c5c7da20ce517a1b32760a5)",
+        "score": -1.0,
+        "skipped_requirements": [
+          "traffic_spike"
+        ],
+        "status": "destroyed"
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:f9f1961d8c44846877d5697a05f0ac187ef4170f3bcce9baa0bbf4fe88c0c655": {
+      "kind": "evidence",
+      "links": [],
+      "payload": {
+        "confidence": 0.98,
+        "phase_degrees": null,
+        "source": "timeline://mitigation/cache-flush",
+        "stance": 1,
+        "tags": [],
+        "text": "Error rate returned to baseline 38 seconds after the cache namespace was flushed."
+      },
+      "schema": "qids-cam/node/v1"
+    },
+    "sha256:fe737440df39f975aa7dae1ab8525c46397cf0952c91482f19bb013c2d056e94": {
+      "kind": "proposition",
+      "links": [
+        "sha256:377135425ae396531da245af6ff131201a2433be4309af20d05632bba905a54f",
+        "sha256:cb98d36b67255cb74d6a1de0e8093b7601f5e2ab5b09cd2f1a40da691ca2379b"
+      ],
+      "payload": {
+        "dependencies": [
+          "sha256:cb98d36b67255cb74d6a1de0e8093b7601f5e2ab5b09cd2f1a40da691ca2379b"
+        ],
+        "evaluation_schema": "qids-cam-evidence-v1",
+        "evidence": [
+          "sha256:377135425ae396531da245af6ff131201a2433be4309af20d05632bba905a54f"
+        ],
+        "metadata": {},
+        "statement": "A multi-region network partition explains the checkout errors."
+      },
+      "schema": "qids-cam/node/v1"
+    }
+  },
+  "root": "sha256:bb11985a71a78678cab4e28d5de3159fa36b5f0386b7ea5c4d87121670ea26eb",
+  "schema": "qids-cam/archive/v1"
+}

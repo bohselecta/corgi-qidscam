@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: >-
+  If you use the QIDS-CAM formulation, implementation, benchmark, or derived
+  architecture, please cite this software and technical report and preserve
+  credit to Hayden Lindley.
+title: "QIDS-CAM: Quantum-Inspired Destructive Search with Content-Addressed Memory"
+type: software
+authors:
+  - family-names: Lindley
+    given-names: Hayden
+version: 0.2.0
+license: Apache-2.0
+url: "https://github.com/bohselecta/corgi-qidscam"
+repository-code: "https://github.com/bohselecta/corgi-qidscam"
+abstract: >-
+  A classical research implementation combining signed evidence cancellation,
+  destructive graph pruning, context-bound learned no-goods, content-addressed
+  Merkle-DAG memory, and verifiable solve receipts for graph-shaped AI reasoning.
+keywords:
+  - artificial intelligence
+  - retrieval-augmented generation
+  - Merkle DAG
+  - content-addressed memory
+  - conflict learning
+  - graph search
+  - quantum-inspired computing
+  - reasoning

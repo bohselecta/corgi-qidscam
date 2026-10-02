@@ -1,0 +1,25 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "title":"QIDS-CAM complete Merkle DAG archive",
+  "type":"object",
+  "required":["schema","root","nodes"],
+  "additionalProperties":false,
+  "properties":{
+    "schema":{"const":"qids-cam/archive/v1"},
+    "root":{"type":"string","pattern":"^sha256:[0-9a-f]{64}$"},
+    "nodes":{
+      "type":"object","minProperties":1,"maxProperties":100000,
+      "propertyNames":{"pattern":"^sha256:[0-9a-f]{64}$"},
+      "additionalProperties":{
+        "type":"object","required":["schema","kind","payload","links"],"additionalProperties":false,
+        "properties":{
+          "schema":{"const":"qids-cam/node/v1"},
+          "kind":{"type":"string","minLength":1},
+          "payload":{"type":"object"},
+          "links":{"type":"array","uniqueItems":true,"items":{"type":"string","pattern":"^sha256:[0-9a-f]{64}$"}}
+        }
+      }
+    }
+  },
+  "$comment":"Runtime additionally checks sorted links, hashes, reachability, missing links, cycles, total link count and v2 solve-proof semantics. This schema alone is not verification."
+}

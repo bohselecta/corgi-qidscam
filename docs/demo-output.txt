@@ -1,0 +1,25 @@
+QIDS-CAM destructive solve
+  problem                     outage-2026-08-17
+  winner                      cache_stampede
+  problem root                sha256:b1974ac7f5939d0dc2dc9beae0db82ecda71a360503bd5c744ca4c97bfe8bba8
+  proof root                  sha256:bb11985a71a78678cab4e28d5de3159fa36b5f0386b7ea5c4d87121670ea26eb
+  metrics
+  candidate evaluations        4
+  proposition expansions       11
+  evidence reads               17
+  memo hits                    5
+  nogood hits                  0
+  learned nogoods              6
+  destroyed propositions       6
+  destroyed candidates         3
+  early prunes                 3
+  avoided requirements         3
+  unique merkle nodes          42
+  elapsed ms                   2.4566
+  candidate outcomes
+    cache_stampede       survives   score=  1.000  Cache-key regression triggered a cache stampede
+    database_failure     destroyed  score= -1.000  Database primary failure
+    network_partition    destroyed  score= -1.000  Multi-region network partition
+    bad_deploy           destroyed  score= -1.000  A newly deployed application regression
+  wrote result                results/demo-run.json
+  wrote verifiable archive    results/demo-proof.json

@@ -1,12 +1,16 @@
 # QIDS-CAM
 
-**Contradiction-aware graph search with content-addressed execution receipts.**
+**Trace how one contradicted proposition eliminates every dependent path.**
 
 Evaluate a classical evidence graph, prune contradicted candidates, reuse exact
 proposition content, and inspect what the solver actually did. Python 3.10+;
 no runtime dependencies, model keys, network calls or background services.
 
-![Actual proof inspector output, rendered from a CLI transcript](docs/terminal.png)
+![Actual v2 proof explorer: candidate outcomes, shared aliases, destroyed dependencies and recorded work](docs/proof-explorer.png)
+
+An offline browser explorer makes exact content identity and destructive search
+visible. The Python library and CLI produce the same portable receipt it reads.
+[Try the explorer](docs/EXPLORER.md) · [Research protocol](docs/RESEARCH-PROTOCOL-v2.md) · [Full results](results/suite-v2.json)
 
 ## Why it exists
 
@@ -36,13 +40,22 @@ From this checkout, with Python 3.10 or newer:
 ```sh
 python3 -m qids_cam demo --archive proof.json
 python3 -m qids_cam verify proof.json
+python3 -m qids_cam explore proof.json --output proof.html
 python3 -m qids_cam inspect proof.json --limit 6
 ```
 
+Open `proof.html` in a modern browser. Select a candidate to follow its
+requirements, select a proposition to inspect aliases and linked evidence, and
+scrub the recorded execution. The HTML is self-contained; no server or network
+is required. If a managed browser blocks local files, use
+`python3 -m http.server 8000 --bind 127.0.0.1` and open
+`http://127.0.0.1:8000/proof.html`. The server is only a file viewer.
+
 The synthetic outage fixture selects `cache_stampede`. Verification checks the
 archive hashes, replays the execution and checks candidate outcomes against a
-separately implemented reference evaluator. The inspector shows the actual
-archived outcomes and trace. Linux/Python 3.12.14 was tested; other Python/OS
+separately implemented reference evaluator. The explorer and terminal inspector show the actual
+archived outcomes and trace. The browser records Python verification at export;
+it does not independently verify the HTML or prove the supplied evidence true. Linux/Python 3.12.14 was tested; other Python/OS
 combinations have not been run in this release preparation.
 
 For an installed command, the reviewed wheel is included in `wheels/`:
@@ -52,6 +65,7 @@ python3 -m venv .venv
 .venv/bin/python -m pip install --no-index wheels/qids_cam-0.2.0-py3-none-any.whl
 .venv/bin/qids-cam demo --archive proof.json
 .venv/bin/qids-cam verify proof.json
+.venv/bin/qids-cam explore proof.json --output proof.html
 ```
 
 On Windows, use `.venv\Scripts\python.exe` and
@@ -142,7 +156,8 @@ with `verify --hash-only`; they cannot establish v2 execution replay.
 
 `schema.py` validates the graph; `canonical.py` defines the JSON hash codec;
 `solver.py` compiles CIDs and evaluates/prunes; `merkle.py` stores immutable
-records; `proof.py` verifies/replays and inspects; `reference.py` provides the
+records; `proof.py` verifies/replays and inspects; `explorer.py` exports a standalone
+browser view from fully verified receipts; `reference.py` provides the
 separate recursive oracle. The CLI uses these same library interfaces.
 
 See the [portable format](docs/PROOF-FORMAT.md), [current architecture](docs/ARCHITECTURE.md),
@@ -163,6 +178,16 @@ atomically replaced, and terminal control characters are escaped. Graph depth
 is limited to 128; JSON to 64 MiB. Larger or adversarial production workloads
 need an operator-enforced time/memory sandbox. No telemetry is collected.
 
+## Terminal inspection
+
+The CLI remains a compact way to inspect the same exported archive:
+
+```sh
+python3 -m qids_cam inspect proof.json --limit 6
+```
+
+![Actual terminal inspector output](docs/terminal.png)
+
 ## Contribute, cite and report issues
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md). Changes to
@@ -173,5 +198,7 @@ Concept originated and directed by **Hayden Lindley**; prior authorship and
 copyright are preserved in [AUTHORS.md](AUTHORS.md), [NOTICE](NOTICE) and
 [CITATION.cff](CITATION.cff). Apache-2.0; [LICENSE](LICENSE).
 Publisher: **[Corgi-verse Software](https://corgi-verse.com)**. The included wheel
-is for offline installation; no package-registry upload or GitHub Release has
-been made.
+is a convenience for offline installation. Reproducible wheel/sdist artifacts
+and SHA-256 checksums are built by the release workflow; a committed wheel is
+not a substitute for the tagged GitHub Release. No package-registry upload is
+required or claimed. [Release notes](docs/RELEASE-NOTES-0.2.0.md).

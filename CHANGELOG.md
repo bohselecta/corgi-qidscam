@@ -1,6 +1,18 @@
 # Changelog
 
-## 0.2.0 — repository distribution
+## 0.2.0 — research instrument and proof explorer
+
+Factory-v2 repair (same unreleased tag/version):
+
+- Standalone browser explorer over fully verified v2 archives: content identity,
+  alias merging, dependency destruction, candidate paths, context, exact evidence
+  and keyboard trace navigation. Original scientific results remain unchanged.
+- Download preserves Python float spelling and passes independent verification.
+- Desktop/mobile screenshot and browser acceptance; hostile data remains inert.
+- CI across Python 3.10–3.14 plus browser acceptance; reproducible wheel/sdist
+  and checksums; explicit product preservation and historical report retention.
+
+Original v2 implementation:
 
 - Fatal local contradiction is now fatal in every ablation; exhaustive traversal
   no longer rescues it through supported dependencies. Missing observations

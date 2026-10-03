@@ -56,12 +56,17 @@ def load(path: str | Path) -> Any:
 
 
 def write_json(path: str | Path, value: Any) -> None:
-    target = Path(path)
-    target.parent.mkdir(parents=True, exist_ok=True)
     text = (
         json.dumps(value, indent=2, sort_keys=True, ensure_ascii=False, allow_nan=False)
         + "\n"
     )
+    write_text(path, text)
+
+
+def write_text(path: str | Path, text: str) -> None:
+    """Atomically replace an explicitly requested bounded UTF-8 output."""
+    target = Path(path)
+    target.parent.mkdir(parents=True, exist_ok=True)
     if len(text.encode("utf-8")) > MAX_BYTES:
         raise ValueError("output exceeds 64 MiB archive limit")
     temporary = None

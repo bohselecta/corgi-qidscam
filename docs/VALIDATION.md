@@ -42,3 +42,29 @@ release solver plus a separately expressed reference evaluator; neither is an
 externally audited formal proof system. Test evidence is builder-run; no external
 reviewer or human acceptance is implied. The distinct acceptance pass attempted
 to falsify parity, data integrity and safe failures with separate cases.
+
+## Browser/product-preservation repair
+
+Observed on the same Linux/Python 3.12.14 environment: 39 Python tests, all 105
+frozen synthetic rows, both receipt-derived browser exports, a clean isolated
+wheel install and installed CLI-to-HTML export pass. Browser acceptance with
+Chromium checks alias merging, actual destroyed/surviving states, candidate
+requirements/skips, event/selected-node filtering, keyboard trace controls,
+archive download followed by an independent Python process, mobile (390px),
+empty graphs, hostile HTML strings, and real no-good hits in the high-sharing
+fixture. No external browser requests or runtime errors occurred.
+
+The Python/JavaScript float-spelling mismatch was caught by verifying the
+downloaded archive, then fixed by preserving the Python serialization.
+Malformed/tampered export and input-overwrite attempts leave previous data safe.
+Desktop and mobile screenshots were visually inspected; mobile page overflow
+was corrected while preserving an internally scrollable graph.
+
+Build/check: wheel and sdist pass Twine metadata checks. Same-toolchain repeat
+builds have identical SHA-256 checksums; tar/gzip metadata are normalized.
+The historical Markdown report, manuscript and bibliography were retained with
+explicit v0.1 boundaries and checksums; TeX compilation is NOT RUN.
+
+Hosted Python 3.10–3.14 and browser CI are configured but NOT RUN on this repair
+until publication approval. No real-model study, empirical RAG/corpus result,
+new public release or external human review is inferred from these checks.

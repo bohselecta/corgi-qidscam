@@ -19,8 +19,14 @@ checksums are recorded in docs/HISTORY-SHA256SUMS; v0.1 counts and proof roots
 were reproduced from a disposable copy of the pinned code for all three scales.
 They remain historical findings with the source's limitations, not v2 claims.
 
-Excluded: source Git history/remotes, website/browser reimplementation, old
-hosted deployment configuration, paper/submission claims, source landing pages,
+Repair addendum: the original browser mechanism is reimplemented as an offline
+v2 proof explorer, using no historical JavaScript solver or alternate codec.
+Original Markdown report, manuscript and bibliography are preserved byte-identically
+with explicit historical boundaries; compilation and peer review are not claimed.
+See docs/PRODUCT-PRESERVATION.md for every meaningful surface and its disposition.
+
+Excluded: source Git history/remotes, old
+hosted deployment configuration, paper/submission acceptance claims, source landing pages,
 private campaign logs and unrelated projects. Only synthetic evidence is included;
 no proprietary corpus, provider credentials, human study data or paid-service
 outputs are redistributed. Source code license is Apache-2.0 and is retained.

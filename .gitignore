@@ -9,3 +9,5 @@ run.json
 suite.json
 RELEASE-EVIDENCE.md
 .verification/
+node_modules/
+proof.html

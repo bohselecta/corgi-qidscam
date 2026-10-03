@@ -1,10 +1,14 @@
 include PROVENANCE.md PUBLIC-FILES.json .gitignore LICENSE NOTICE AUTHORS.md CITATION.cff CHANGELOG.md SECURITY.md CONTRIBUTING.md CODE_OF_CONDUCT.md RELEASE-CONTRACT.md
-recursive-include docs *.md *.png *.txt HISTORY-SHA256SUMS
+recursive-include docs *.md *.png *.txt *.html *.json HISTORY-SHA256SUMS
 recursive-include tests *.py
 recursive-include examples *.py *.json *.md
 recursive-include results *.json *.md
 recursive-include scripts *.py
 recursive-include schemas *.json
+recursive-include qids_cam/explorer *.html *.css *.js
+recursive-include .github *.yml
+recursive-include paper *.tex *.bib *.md
+include tests/browser-explorer.cjs package.json package-lock.json
 exclude RELEASE-EVIDENCE.md
 recursive-include wheels *.whl SHA256SUMS
 prune dist

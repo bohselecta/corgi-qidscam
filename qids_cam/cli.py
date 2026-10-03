@@ -114,6 +114,20 @@ def command_compare(args: argparse.Namespace) -> int:
     return 0 if parity else 2
 
 
+def command_explore(args: argparse.Namespace) -> int:
+    from .explorer import render_explorer
+    from .io import write_text
+
+    if Path(args.archive).resolve() == Path(args.output).resolve():
+        raise ValueError("explorer output must not overwrite its input archive")
+    html = render_explorer(load(args.archive))
+    write_text(args.output, html)
+    print_line(f"Wrote offline proof explorer: {args.output}")
+    print_line("Verified in Python at export: hashes + replay + independent reference.")
+    print_line("Open the HTML in a browser. Evidence truth is not established.")
+    return 0
+
+
 def command_benchmark(args: argparse.Namespace) -> int:
     if args.suite:
         from .suite import run_suite
@@ -245,6 +259,12 @@ def build_parser() -> argparse.ArgumentParser:
     inspect.add_argument("--limit", type=int, default=20)
     inspect.add_argument("--json", action="store_true")
     inspect.set_defaults(func=command_inspect)
+    explore = subparsers.add_parser(
+        "explore", help="verify a v2 archive and export a standalone browser explorer"
+    )
+    explore.add_argument("archive")
+    explore.add_argument("--output", required=True, help="local HTML output path")
+    explore.set_defaults(func=command_explore)
     return parser
 
 

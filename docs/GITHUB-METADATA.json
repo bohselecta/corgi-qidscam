@@ -1,0 +1,9 @@
+{
+  "destination": "bohselecta/corgi-qidscam",
+  "description": "Contradiction-aware graph search with content-addressed receipts and an offline visual proof explorer.",
+  "homepage": "https://github.com/bohselecta/corgi-qidscam#readme",
+  "topics": ["graph-search", "content-addressing", "merkle-dag", "research", "proof-explorer", "python"],
+  "required_ci_names": ["QIDS-CAM verification"],
+  "tag": "v0.2.0",
+  "expected_assets": ["qids_cam-0.2.0-py3-none-any.whl", "qids_cam-0.2.0.tar.gz", "SHA256SUMS"]
+}

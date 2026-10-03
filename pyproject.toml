@@ -46,4 +46,4 @@ packages = ["qids_cam"]
 include-package-data = false
 
 [tool.setuptools.package-data]
-qids_cam = ["py.typed", "data/*.json"]
+qids_cam = ["py.typed", "data/*.json", "explorer/*.html", "explorer/*.css", "explorer/*.js"]

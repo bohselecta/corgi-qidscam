@@ -1,0 +1,126 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,booktabs,hyperref,microtype,xcolor}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\hypersetup{colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue,pdftitle={QIDS-CAM: Quantum-Inspired Destructive Search with Content-Addressed Memory},pdfauthor={Hayden Lindley},pdfsubject={Classical destructive graph search with content-addressed memory},pdfkeywords={AI, RAG, Merkle DAG, conflict learning, quantum-inspired}}
+\title{QIDS-CAM: Quantum-Inspired Destructive Search\\with Content-Addressed Memory}
+\author{Hayden Lindley\\Independent Research}
+\date{Technical Report v0.1.0 --- August 17, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Retrieval-augmented generation and agent systems can repeatedly evaluate the same intermediate proposition through multiple documents, candidate answers, decomposition paths, or sessions. Semantic retrieval alone does not give a resolved reasoning state exact reusable computational identity. QIDS-CAM is a classical destructive graph-search architecture that content-addresses evidence, propositions, dependencies, candidates, and solve receipts in a Merkle DAG. Supporting and opposing evidence are aggregated as signed or phase-aware classical vectors. Fatal local contradictions and destroyed dependencies terminate branches early. Resolved states are memoized by proposition and constraint-context content identifiers; destroyed states are additionally retained as reusable no-goods. A deterministic synthetic benchmark separates exhaustive evaluation, destructive pruning, content-addressed memoization, and the full combined system. On the frozen seed-7 suite, every configuration selects the same answer. Full QIDS-CAM reduces proposition expansions from 256 to 22, 3,584 to 51, and 36,864 to 88 at the small, medium, and large scales. The contribution is a falsifiable open implementation of contradiction as persistent content-addressed negative computation. It is not a qubit simulation and makes no claim of quantum speedup.
+\end{abstract}
+
+\section{Introduction}
+A graph-shaped reasoning system may encounter the same proposition through many paths. Once a proposition has been found incompatible with evidence or a dependency, reevaluating the same semantic state is wasted computation. Conventional caches often depend on local keys, while semantic indexes find approximate similarity rather than exact computational equivalence.
+
+QIDS-CAM asks whether a reasoning proposition and its dependency subgraph can be assigned stable content identity, allowing a destroyed state to be learned once and propagated across every branch that reaches the same identity. The design combines content-addressed Merkle-DAG nodes, classical signed evidence cancellation, destructive pruning, fail-first ordering, exact memoization, context-bound no-good learning, and a deterministic solve receipt.
+
+The term ``quantum-inspired'' is narrow. Quantum computation uses amplitudes and phase to create interference \cite{grover1996}. QIDS-CAM borrows cancellation as a mathematical search intuition, but executes ordinary classical arithmetic and does not reproduce physical superposition or amplitude amplification.
+
+\section{System Model}
+A problem contains evidence items $E$, propositions $P$, and candidates $C$. Evidence item $j$ has stance $s_j\in\{-1,+1\}$, confidence $w_j\in[0,1]$, source, text, and optional phase $\theta_j$. A proposition links to evidence and to zero or more dependency propositions. Candidate $c$ requires a set of propositions; destruction of any requirement destroys the candidate.
+
+A constraint context records conditions under which a prior result can be reused, such as corpus revision, evaluator version, source policy, time scope, or tenant.
+
+\section{Content-Addressed Compilation}
+For canonical record $x$ and namespace $n$, the reference identifier is
+\begin{equation}
+\mathrm{CID}_n(x)=\texttt{sha256:}\,\|\,\mathrm{SHA256}(\mathrm{UTF8}(n)\,\|\,0x00\,\|\,\mathrm{canonical\_json}(x)).
+\end{equation}
+Evidence nodes are hashed from semantic fields. Proposition aliases are omitted from the proposition payload; the payload contains its statement, sorted evidence CIDs, sorted dependency CIDs, metadata, and evaluation schema. Exact semantic aliases therefore share one CID. This follows the content-addressing and structural-sharing role of Merkle DAGs \cite{ipfsmerkledag} without claiming a new authenticated-data-structure primitive.
+
+\section{Classical Cancellation}
+For proposition $p$, the classical complex evidence sum is
+\begin{equation}
+A(p)=\sum_j w_j e^{i\theta_j}.
+\end{equation}
+Supporting evidence defaults to $\theta=0$ and opposing evidence to $\theta=\pi$. The normalized local residual is
+\begin{equation}
+L(p)=\mathrm{clamp}\left(\frac{\Re(A(p))}{\sum_j w_j},-1,1\right),
+\end{equation}
+with coherence $|A(p)|/\sum_jw_j$ reported for inspection. These quantities are computed classically.
+
+A proposition is locally destroyed when its score is at or below a configurable threshold. If it survives locally, dependencies are recursively evaluated. One destroyed dependency destroys its parent. Otherwise local and dependency scores are combined.
+
+\section{Content-Addressed Memory and No-Goods}
+The exact reuse key is
+\begin{equation}
+K(p,k)=(\mathrm{CID}(p),\mathrm{CID}(k)),
+\end{equation}
+where $k$ is the constraint context. A general memo table stores resolved states. A no-good table stores destroyed states and is checked first. The no-good concept is related to conflict learning in SAT and constraint solving \cite{marquessilva2009}, but v0.1.0 stores an exact context-bound proposition result rather than a generalized learned clause.
+
+The intended effect is equivalence-class elimination: many paths may reference one fatal proposition CID, so one destructive resolution can terminate all later occurrences.
+
+\section{Search and Proof Receipt}
+Requirements are ordered by a simple hazard estimate using local opposition minus support plus descendant hazard. This fail-first policy attempts to expose contradictions before compatible work.
+
+The final solve creates immutable candidate-result nodes and a solve-proof node committing to the problem root, context CID, solver configuration, selected winner, deterministic metrics, algorithm version, and linked results. Wall-clock time is excluded. Archive verification recomputes all node CIDs and validates reachable links. This receipt proves integrity of the represented computation, not truth of the natural-language evidence.
+
+\section{Experimental Protocol}
+The deterministic benchmark creates reusable positive leaves and modules, a smaller set of strongly contradicted trap leaves and modules, one compatible candidate, and many candidates containing one shared trap. The trap appears last in input order. Four configurations are evaluated:
+\begin{enumerate}
+  \item independent exhaustive evaluation;
+  \item destructive pruning without content-addressed memory;
+  \item content-addressed memoization without destructive pruning;
+  \item full QIDS-CAM.
+\end{enumerate}
+The primary metric is proposition expansions after memory checks. Correctness requires every configuration to select the known compatible candidate.
+
+\section{Results}
+\begin{table}[h]
+\centering
+\caption{Frozen seed-7 proposition expansion counts.}
+\begin{tabular}{lrrrrrr}
+\toprule
+Scale & Candidates & Exhaustive & Destructive & Merkle only & QIDS-CAM & Parity \\
+\midrule
+Small  & 16    & 256    & 76    & 30  & \textbf{22} & yes \\
+Medium & 128   & 3,584  & 536   & 88  & \textbf{51} & yes \\
+Large  & 1,024 & 36,864 & 4,128 & 176 & \textbf{88} & yes \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Relative to exhaustive evaluation, the reductions are 11.6364$\times$, 70.2745$\times$, and 418.9091$\times$. Relative to destructive search without memory, they are 3.4545$\times$, 10.5098$\times$, and 46.9091$\times$.
+
+On the medium case, 16 learned no-goods produce 119 later no-good hits, while 127 candidates are pruned early and 762 requirements are avoided. On the large case, 32 unique no-goods produce 1,007 no-good hits. These figures demonstrate the mechanism on a workload deliberately designed around shared subgraphs.
+
+\section{Relationship to RAG}
+Graph-based RAG structures entities, relations, communities, and summaries to improve retrieval and global reasoning \cite{edge2024graphrag}. QIDS-CAM addresses a different layer: after retrieval and claim/candidate construction, exact proposition identity supports reusable positive and negative resolution. A production pipeline may use vector, lexical, and graph retrieval to discover evidence, then QIDS-CAM to destructively verify candidate answers and issue a solve receipt.
+
+\section{Limitations}
+The benchmark is synthetic and aligned with the mechanism under study. Evidence stances and confidences are generated rather than inferred by noisy models. The reference store is in memory. Exact textual/structural identity does not automatically collapse paraphrases. No-good safety depends on complete context identity. The largest practical risk is false destruction: an incorrect contradiction judgment can eliminate the correct answer. Therefore answer quality, calibration, false-destruction rate, and stale-no-good rate must accompany efficiency results.
+
+\section{Research Agenda}
+Immediate experiments should evaluate all four ablations on public contradiction-heavy or multi-hop QA tasks, measure cold and warm cache behavior, account for model calls and tokens, compare exact versus semantic proposition identity, test context invalidation under corpus revisions, and compare the hand-built hazard heuristic with learned ordering. Independent reproduction should use a tagged release and archived result files.
+
+\section{Conclusion}
+QIDS-CAM makes contradiction persistent. A reasoning state is content-addressed from its evidence and dependencies; destructive resolution is stored under an explicit context; every later path that reaches the same state can reuse the negative computation; and the solve emits a recursively verifiable root. The reference implementation demonstrates the mechanism and separates its contributions through ablation. Its value on real AI workloads remains a concrete empirical question rather than an assumed universal claim.
+
+\begin{thebibliography}{9}
+\bibitem{grover1996}
+L. K. Grover.
+\newblock A fast quantum mechanical algorithm for database search.
+\newblock In \emph{Proceedings of the 28th Annual ACM Symposium on Theory of Computing}, 1996.
+
+\bibitem{ipfsmerkledag}
+IPFS Project.
+\newblock Merkle DAGs.
+\newblock \url{https://docs.ipfs.tech/concepts/merkle-dag/}, accessed August 17, 2026.
+
+\bibitem{marquessilva2009}
+J. Marques-Silva, I. Lynce, and S. Malik.
+\newblock Conflict-driven clause learning SAT solvers.
+\newblock In \emph{Handbook of Satisfiability}, IOS Press, 2009.
+
+\bibitem{edge2024graphrag}
+D. Edge et al.
+\newblock From local to global: A graph RAG approach to query-focused summarization.
+\newblock arXiv:2404.16130, 2024.
+\end{thebibliography}
+\end{document}

@@ -21,6 +21,7 @@ from qids_cam.canonical import canonical_json  # noqa: E402
 from qids_cam.io import load  # noqa: E402
 from qids_cam.proof import verify_archive  # noqa: E402
 from qids_cam.suite import run_suite  # noqa: E402
+from qids_cam.explorer import render_explorer  # noqa: E402
 
 
 def run(command, cwd=ROOT, env=None):
@@ -56,7 +57,7 @@ def main():
         "random_dags": 60,
         "optimized_configs_per_dag": 5,
     }
-    for name in ("demo-proof.json", "rag-adapter-proof.json"):
+    for name in ("demo-proof.json", "rag-adapter-proof.json", "reuse-proof.json"):
         report = verify_archive(load(ROOT / "results" / name))
         checks[name] = {
             "state": "PASS",
@@ -64,6 +65,11 @@ def main():
             "nodes": report["nodes"],
             "winner": report["winner"],
         }
+    for archive, html in (("demo-proof.json", "explorer.html"),
+                          ("reuse-proof.json", "reuse-explorer.html")):
+        if render_explorer(load(ROOT / "results" / archive)) != (ROOT / "docs" / html).read_text():
+            raise ValueError(f"browser export drift: {html}")
+    checks["actual_receipt_browser_exports"] = {"state": "PASS", "exports": 2}
     recorded = load(ROOT / "results/suite-v2.json")
     current = run_suite()
     if not current["parity"] or not current["deterministic"]:
@@ -190,6 +196,10 @@ def main():
             cwd=tmp,
             env={k: v for k, v in os.environ.items() if not k.startswith("PYTHON")},
         )
+        run([str(cli), "explore", "proof.json", "--output", "proof.html"], cwd=tmp)
+        html = (tmp / "proof.html").read_text()
+        if "One identity" not in html or "connect-src 'none'" not in html:
+            raise ValueError("installed browser assets are missing or unsafe")
         if (
             "winner cache_stampede" not in verified
             or "Winner: cache_stampede" not in inspected
@@ -200,7 +210,7 @@ def main():
             "network_required": False,
             "global_site_packages": False,
             "cwd_outside_checkout": True,
-            "journey": "wheel install -> demo -> archive -> separate verify process -> installed CLI inspect",
+            "journey": "wheel install -> demo -> archive -> separate verify process -> installed inspect -> standalone browser export",
         }
     result = {
         "schema": "qids-cam/prepublication-gate/v1",

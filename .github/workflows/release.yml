@@ -2,16 +2,31 @@ name: Release artifacts
 on:
   push:
     tags: ['v*']
+  workflow_run:
+    workflows: ['QIDS-CAM verification']
+    types: [completed]
+    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
   artifacts:
+    if: >-
+      github.event_name != 'workflow_run' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_repository.full_name == github.repository &&
+       github.event.workflow_run.head_sha == github.sha)
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+          fetch-depth: 0
+      - name: Verify approved product content
+        run: |
+          git diff --exit-code 3f4a4e0ba748195fa60c90df9c795aa98a8fa2e7 HEAD -- . ':!.github/workflows/release.yml'
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -22,18 +37,29 @@ jobs:
       - run: cp dist/SHA256SUMS /tmp/first-build-checksums
       - run: python scripts/build_release.py
       - run: cmp /tmp/first-build-checksums dist/SHA256SUMS
-      - name: Publish approved tag artifacts
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Publish approved release artifacts
+        if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_run'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          test "$GITHUB_REF_NAME" = "v0.2.0"
-          if ! gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
-            gh release create "$GITHUB_REF_NAME" \
-              --verify-tag --title "QIDS-CAM 0.2.0" \
+          tag=v0.2.0
+          release_commit="$(git rev-parse HEAD)"
+          if [ "$GITHUB_EVENT_NAME" = push ]; then
+            test "$GITHUB_REF_NAME" = "$tag"
+          fi
+          existing_tag="$(git ls-remote origin "refs/tags/$tag")"
+          if [ -n "$existing_tag" ]; then
+            git fetch origin "refs/tags/$tag:refs/tags/$tag"
+            test "$(git rev-parse "$tag^{commit}")" = "$release_commit"
+          fi
+          if ! gh release view "$tag" >/dev/null 2>&1; then
+            gh release create "$tag" --target "$release_commit" \
+              --title "QIDS-CAM 0.2.0" \
               --notes-file docs/RELEASE-NOTES-0.2.0.md
           fi
-          gh release upload "$GITHUB_REF_NAME" dist/*.whl dist/*.tar.gz dist/SHA256SUMS --clobber
+          git fetch origin "refs/tags/$tag:refs/tags/$tag"
+          test "$(git rev-parse "$tag^{commit}")" = "$release_commit"
+          gh release upload "$tag" dist/*.whl dist/*.tar.gz dist/SHA256SUMS --clobber
       - uses: actions/upload-artifact@v4
         with:
           name: qids-cam-0.2.0
